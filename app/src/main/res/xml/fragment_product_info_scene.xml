@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+       <KeyFrameSet>
+       </KeyFrameSet>
+        <OnSwipe motion:touchAnchorId="@+id/nested" />
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/viewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="0"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintHeight_percent="0.55"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:transitionEasing="linear"
+            motion:pathMotionArc="startVertical"
+            android:rotation="0" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/viewPager2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintVertical_bias="0"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintHeight_percent="0.001"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/lick_btn"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            motion:layout_constraintVertical_bias="0.03"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toLeftOf="@id/share_btn"
+            motion:layout_constraintTop_toTopOf="@id/bac_btn"
+            motion:layout_constraintHorizontal_bias="0.96"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/share_btn"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            motion:layout_constraintVertical_bias="0.03"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toLeftOf="@id/lock_btn"
+            motion:layout_constraintTop_toTopOf="@id/bac_btn"
+            motion:layout_constraintHorizontal_bias="0.96"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/lock_btn"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            motion:layout_constraintVertical_bias="0.03"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/bac_btn"
+            motion:layout_constraintHorizontal_bias="0.96"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/spring_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/viewPager2"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:visibility="invisible" />
+        <Constraint
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            motion:layout_constraintTop_toTopOf="@id/bac_btn"
+            motion:layout_constraintBottom_toBottomOf="@id/bac_btn"
+            motion:layout_constraintLeft_toRightOf="@id/bac_btn"
+            motion:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp" />
+        <Constraint
+            android:id="@+id/toolbar_view"
+            android:elevation="@dimen/_2sdp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:visibility="visible" />
+        <Constraint
+            android:id="@+id/bac_btn"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            motion:layout_constraintVertical_bias="0.03"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintHorizontal_bias="0.04"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:elevation="0dp" />
+    </ConstraintSet>
+</MotionScene>

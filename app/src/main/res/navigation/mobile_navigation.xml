@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="uz.idea.mobio.ui.main.homeScreen.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_categoryProductFragment"
+            app:destination="@id/categoryProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/category"
+        android:name="uz.idea.mobio.ui.main.categoryScreen.CategoryFragment"
+        android:label="@string/category"
+        tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/favorites"
+        android:name="uz.idea.mobio.ui.main.favoritesScreen.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/questions"
+        android:name="uz.idea.mobio.ui.main.questionScreen.QuestionFragment"
+        android:label="@string/questions"
+        tools:layout="@layout/fragment_question" />
+    <fragment
+        android:id="@+id/privacy"
+        android:name="uz.idea.mobio.ui.main.privacyScreen.PrivacyFragment"
+        android:label="@string/privacy"
+        tools:layout="@layout/fragment_privacy" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="uz.idea.mobio.ui.main.settingsScreen.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/search"
+        android:name="uz.idea.mobio.ui.main.searchScreen.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/basket"
+        android:name="uz.idea.mobio.ui.main.basketScreen.BasketFragment"
+        android:label="@string/basket"
+        tools:layout="@layout/fragment_basket" />
+    <fragment
+        android:id="@+id/categoryProductFragment"
+        android:name="uz.idea.mobio.ui.main.categoryProductsScreen.CategoryProductFragment"
+        android:label="fragment_category_product"
+        tools:layout="@layout/fragment_category_product" />
+    <fragment
+        android:id="@+id/productInfoFragment"
+        android:name="uz.idea.mobio.ui.main.productInfoScreen.ProductInfoFragment"
+        android:label="fragment_product_info"
+        tools:layout="@layout/fragment_product_info" />
+
+</navigation>
