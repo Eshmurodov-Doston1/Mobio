@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/app_background_color"
     android:layout_height="match_parent"
     tools:context=".ui.main.activity.MainActivity">
 
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:elevation="@dimen/_1sdp"
+        app:elevation="0dp"
         android:theme="@style/Theme.Mobio.AppBarOverlay">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -21,7 +22,7 @@
             app:titleTextColor="@color/text_color"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            android:background="@color/app_background_color"
             app:popupTheme="@style/Theme.Mobio.PopupOverlay"
             tools:ignore="RtlSymmetry" />
 
@@ -31,12 +32,32 @@
         android:id="@+id/inner_include"
         layout="@layout/content_main" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_scroll"
+        android:visibility="gone"
+        app:backgroundTint="@color/circle_progress_color"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/_65sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintHorizontal_bias="0.98"
+        android:src="@drawable/ic_top_arrow"
+        android:backgroundTint="@color/circle_progress_color"
+        android:tint="@color/white"
+        android:tintMode="src_in"
+        app:rippleColor="@color/circle_progress_color"
+        app:fabSize="normal"
+        app:fabCustomSize="@dimen/_35sdp"
+        app:layout_constraintVertical_bias="0.9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         android:id="@+id/bottom_appbar"
         app:elevation="@dimen/_4sdp"
+        android:backgroundTint="@color/app_background_color"
         app:fabCradleMargin="@dimen/_10sdp"
         app:fabCradleRoundedCornerRadius="@dimen/_6sdp"
         app:fabCradleVerticalOffset="@dimen/_6sdp">
@@ -44,6 +65,8 @@
             android:id="@+id/bottom_navigation"
             app:menu="@menu/bottom_navigation"
             app:itemIconSize="@dimen/_15sdp"
+            app:itemTextColor="@color/text_color_red"
+            app:itemIconTint="@color/icon_color_navigation"
             app:itemRippleColor="@null"
             app:labelVisibilityMode="selected"
             android:layout_marginEnd="@dimen/_16sdp"
@@ -56,7 +79,7 @@
         android:outlineAmbientShadowColor="@color/app_background"
         android:outlineSpotShadowColor="@color/app_background"
         android:src="@drawable/ic_home"
-        app:backgroundTint="@color/white"
+        app:backgroundTint="@color/color_item"
         android:tint="@color/app_background"
         app:rippleColor="@color/app_background"
         app:fabSize="normal"

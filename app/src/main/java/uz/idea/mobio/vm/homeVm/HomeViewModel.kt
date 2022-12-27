@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import uz.idea.mobio.database.daoAndEntity.error.ErrorEntity
 import uz.idea.mobio.models.categoryModel.CategoryModel
+import uz.idea.mobio.models.favoritesData.favoritesReq.FavoritesReq
 import uz.idea.mobio.models.mainChildModel.MainChildModel
 import uz.idea.mobio.models.mainProduct.MainProductModel
 import uz.idea.mobio.network.pagingService.PagingService
@@ -21,6 +22,7 @@ import uz.idea.mobio.utils.appConstant.AppConstant.API
 import uz.idea.mobio.utils.appConstant.AppConstant.CATEGORY
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_PAGE_SIZE
 import uz.idea.mobio.utils.appConstant.AppConstant.EMPTY_MAP
+import uz.idea.mobio.utils.appConstant.AppConstant.FAVORITE_ADD
 import uz.idea.mobio.utils.appConstant.AppConstant.MAIN_PRODUCT_CHILD_PATH
 import uz.idea.mobio.utils.appConstant.AppConstant.MAIN_PRODUCT_PATH
 import uz.idea.mobio.utils.appConstant.AppConstant.NEW_PRODUCT
@@ -38,6 +40,7 @@ const val PATH_CATEGORY = "/$API/$CATEGORY"
 const val PATH_NEW_PRODUCT = "/$API/$NEW_PRODUCT"
 const val PATH_MAIN_PRODUCT = "/$API/$MAIN_PRODUCT_PATH"
 const val PATH_MAIN_CHILD = "/$API/$MAIN_PRODUCT_CHILD_PATH"
+const val FAVORITE_ADD_PATH = "/$API/$FAVORITE_ADD"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -50,7 +53,7 @@ class HomeViewModel @Inject constructor(
     // get category paging
     fun getCategory() = createPager { page->
         val response = pagingService.methodeGet(PATH_CATEGORY, queryCateGoryMap(page, DEFAULT_PAGE_SIZE))
-        return@createPager if (response.isSuccessful){
+        return@createPager if (response.isSuccessful) {
             response.body()?.parseClass(CategoryModel::class.java)?.category?.data ?: emptyList()
         } else {
             emptyList()
@@ -94,6 +97,26 @@ class HomeViewModel @Inject constructor(
             }
         }else{
             _newProduct.emit(ResponseState.Error(NO_INTERNET))
+        }
+    }
+
+    // save favorites
+    val favoritesData:StateFlow<ResponseState<JsonElement?>> get() = _favoritesData
+    private val _favoritesData = MutableStateFlow<ResponseState<JsonElement?>>(ResponseState.Loading)
+
+    fun saveFavorite(favoritesReq: FavoritesReq) = viewModelScope.launch {
+        if (networkHelper.isNetworkConnected()){
+            try {
+                _favoritesData.emit(ResponseState.Loading)
+                apiUsesCase.methodePost(FAVORITE_ADD_PATH, favoritesReq,queryNewMap(6)).collect { response->
+                    _favoritesData.emit(response)
+                }
+            }catch (e:SocketTimeoutException){
+                errorRepository.saveError(ErrorEntity(error = e.message, errorCode = e.hashCode()))
+                _mainProduct.emit(ResponseState.Error(e.hashCode(),errorRepository.getLiveError()))
+            }
+        }else{
+            _favoritesData.emit(ResponseState.Error(NO_INTERNET))
         }
     }
 

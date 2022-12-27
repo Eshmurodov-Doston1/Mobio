@@ -73,7 +73,7 @@ class AuthViewModel @Inject constructor(
 
 
     fun clearErrorTable() = errorRepository.deleteTableError()
-
+    fun getMyShared() = mySharedPreferences
     fun saveSharedPref(resAuth: ResAuth?){
         mySharedPreferences.accessToken = resAuth?.access_token
         mySharedPreferences.refreshToken = resAuth?.refresh_token

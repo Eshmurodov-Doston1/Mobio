@@ -43,5 +43,7 @@ class MainViewModel @Inject constructor (
             _userData.emit(ResponseState.Error(NO_INTERNET))
         }
     }
+
+    fun getMyShared() = mySharedPreferences
     fun clearErrorTable() =errorRepository.deleteTableError()
 }

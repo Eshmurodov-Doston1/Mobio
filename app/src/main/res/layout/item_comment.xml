@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/app_background_color"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -50,9 +50,10 @@
                     android:layout_marginVertical="@dimen/_2sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:saveEnabled="false"
                     android:layout_gravity="start"
                     app:starCount="5"
-                    app:isIndicator="false"
+                    app:isIndicator="true"
                     app:starFillColor="@color/circle_progress_color"
                     app:starSize="30"
                     app:starValue="3"/>
@@ -80,10 +81,9 @@
             android:textColor="@color/text_color_gray"
             android:fontFamily="@font/inter_medium"
             android:layout_height="wrap_content"
-            android:text="Dsotonbek eshmurodov blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah"
             app:readMoreColor="@color/text_color_red"
             app:readMoreMaxLine="3"
-            app:readMoreText="....." />
+            app:readMoreText=" ..." />
         <View
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_5sdp"

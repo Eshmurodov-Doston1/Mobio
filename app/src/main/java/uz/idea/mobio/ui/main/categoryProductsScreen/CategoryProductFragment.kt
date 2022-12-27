@@ -1,5 +1,6 @@
 package uz.idea.mobio.ui.main.categoryProductsScreen
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,6 +25,9 @@ import uz.idea.mobio.models.basketModel.addBasket.addBasketReq.AddBasketReq
 import uz.idea.mobio.models.basketModel.addBasket.addBasketRes.AddBasketRes
 import uz.idea.mobio.models.categoryProductModel.CategoryProductModel
 import uz.idea.mobio.models.categoryProductModel.DataX
+import uz.idea.mobio.models.favoritesData.favoritesReq.FavoritesReq
+import uz.idea.mobio.models.favoritesData.resSaveFavorite.ResSaveFavorite
+import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
 import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_BASKET
@@ -46,11 +50,13 @@ class CategoryProductFragment : BaseFragment<FragmentCategoryProductBinding>() {
     // basketViewModel
     private var countMotion = 0
   private val basketViewModel:BasketViewModel by viewModels()
+    // homeViewModel
+  private val homeViewModel:HomeViewModel by viewModels()
     private val categoryProductPagingAdapter:PagingAdapter<DataX> by lazy {
         PagingAdapter(R.layout.item_product_category){ data, position, clickType ,viewBinding->
             when(clickType){
                 CLICK_FAVORITES->{
-
+                    favoriteProduct(data?.productss?.id?:0,viewBinding)
                 }
                 CLICK_BASKET->{
                     val addBasketReq = AddBasketReq(data?.productss?.id.toString())
@@ -58,6 +64,34 @@ class CategoryProductFragment : BaseFragment<FragmentCategoryProductBinding>() {
                 }
                 DEFAULT_CLICK->{
                     activityMain.container?.screenNavigate?.createProductInfoScreen(data?.productss?.id?:0)
+                }
+            }
+        }
+    }
+
+
+    private fun favoriteProduct(productID:Int,viewBinding:ViewBinding){
+        val favoritesReq = FavoritesReq(product_id = productID.toString())
+        homeViewModel.saveFavorite(favoritesReq)
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.favoritesData.collect { result->
+                when(result){
+                    is ResponseState.Loading->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.visible() }
+                    }
+                    is ResponseState.Success->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
+                        val resSaveFavorite = result.data?.parseClass(ResSaveFavorite::class.java)
+                        activityMain.motionAnimation("success",resSaveFavorite?.message)
+                    }
+                    is ResponseState.Error->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
+                        activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
+                            if (clickType==2) activityMain.startActivity(Intent(activityMain, AuthActivity::class.java))
+                            else if (clickType==1) favoriteProduct(productID, viewBinding)
+                            basketViewModel.clearErrorTable()
+                        }
+                    }
                 }
             }
         }

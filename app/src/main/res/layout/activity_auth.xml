@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/app_background_color"
     tools:context=".ui.auth.activity.AuthActivity">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linear"
@@ -54,6 +54,7 @@
         app:tabGravity="center"
         app:tabTextAppearance="@style/MyCustomTextAppearance"
         app:tabIndicatorHeight="2dp"
+        android:background="@color/app_background_color"
         app:tabIndicatorColor="@color/app_background"
         app:layout_constraintTop_toBottomOf="@id/info_text"
         android:layout_marginTop="@dimen/_10sdp"

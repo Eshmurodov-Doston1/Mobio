@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import uz.idea.mobio.utils.appConstant.AppConstant.ACCESS_TOKEN
 import uz.idea.mobio.utils.appConstant.AppConstant.COMPANY_NAME
 import uz.idea.mobio.utils.appConstant.AppConstant.EMPTY
+import uz.idea.mobio.utils.appConstant.AppConstant.IS_INTRODUCTION
 import uz.idea.mobio.utils.appConstant.AppConstant.LANG
 import uz.idea.mobio.utils.appConstant.AppConstant.PASSWORD
 import uz.idea.mobio.utils.appConstant.AppConstant.PHONE
@@ -79,6 +80,13 @@ class MySharedPreferences @Inject constructor(
         get() = sharedPreferences.getBoolean(THEME,false)
         set(value) = sharedPreferences.edit{
             if (value!=null) it.putBoolean(THEME,value)
+        }
+
+    // TODO: theme
+    var isIntroduction:Boolean?
+        get() = sharedPreferences.getBoolean(IS_INTRODUCTION,false)
+        set(value) = sharedPreferences.edit{
+            if (value!=null) it.putBoolean(IS_INTRODUCTION,value)
         }
 
     // TODO: register phone

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mobio</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_info_text">Mobio mobil ilivasiga xush kelib siz</string>
+    <string name="phone_number">Telefon raqam</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="password">Parol</string>
+    <string name="login_btn">Авторизация</string>
+    <string name="register_btn">Ro\'yxatdan o\'tish</string>
+    <string name="full_name">To\'liq ism familiya</string>
+    <string name="email">Email</string>
+    <string name="close">Yopish</string>
+    <string name="loading">Kuting...</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="repeat">Qayta urunish</string>
+    <string name="multi_request">So\'rovlar ko\'payib ketdi iltimos keyinroq urunib ko\'ring</string>
+    <string name="server_error">Server bilan aloqa mavjud emas iltimos keyinroq urunib kuring</string>
+    <string name="no_internet">Internet bilan ulanish mavjud emas iltimos internetni tekshiring</string>
+    <string name="slow_internet">Internet juda sekin</string>
+    <string name="no_connect_internet">Internet bilan ulanish mavjud emas</string>
+
+    <string name="menu_home">Asosiy oyna</string>
+    <string name="category">Bo\'limlar</string>
+    <string name="favorites">Sevimlilar</string>
+    <string name="questions">Ko\'p so\'raladigan savollar</string>
+    <string name="privacy">Foydalanish shartlari</string>
+    <string name="settings">Sozlamalar</string>
+    <string name="search">Qidiruv</string>
+    <string name="basket">Savat</string>
+    <string name="see_all">Barchasini ko\'rish</string>
+    <string name="buy_now">Xozir sotib olish</string>
+    <string name="pay_type">so\'m</string>
+    <string name="discount">Chegirma</string>
+    <string name="summa">Narxi:</string>
+    <string name="comment_text">ta kamentariya</string>
+    <string name="no_comment">Komentariya mavjud emas</string>
+    <string name="old_price">Oldingi narxi:</string>
+    <string name="percent">Foiz:</string>
+    <string name="buy">Sotib olish</string>
+    <string name="comment">Komment qoldirish</string>
+    <string name="search_text">Qidiruv...</string>
+    <string name="delete_basket">Maxsulot savatdan o\'chdi</string>
+    <string name="comment_title">Komment qoldirish:</string>
+    <string name="reade_more_text">Barchasini o\'qish</string>
+    <string name="user_information">Foydalanuvchi malumotlari</string>
+    <string name="uzb_lang">O\'zbek tili</string>
+    <string name="uzb_lang_title">O\'zbek tili</string>
+    <string name="ru_lang">Rus tili</string>
+    <string name="crl_lang">Ўзбек тили</string>
+    <string name="day_theme">Kunduzgi holat</string>
+    <string name="night_theme">Tungi holat</string>
+    <string name="info_application">Ilova haqida</string>
+    <string name="share_application">Ilovani ulashish</string>
+    <string name="money_history">Xarajatlar tarixi</string>
+    <string name="offerta">Ommaviy offerta shartlari</string>
+    <string name="info_company">Biz haqimizda</string>
+    <string name="language_tv">Tilni tanlang</string>
+    <string name="logout">Akkountdan chiqish</string>
+    <string name="logout_text">Akkountdan chiqishni xoxlaysizmi?</string>
+    <string name="accepted">Qabul qilish</string>
+    <string name="no_auth">Siz ro\'yxatdan o\'tmagansiz</string>
+    <string name="auth_text">Ro\'yxatdan o\'tish</string>
+    <string name="no_data">Malumot mavjud emas</string>
+    <string name="check_language">Tilni tanlang</string>
+    <string name="save_lang">Tilni o\'zgartieish</string>
+    <string name="rate_text">Sizga ko\'rsatilgan xizmatlar bo\'yicha baxo qo\'ying?</string>
+
+
+</resources>

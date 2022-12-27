@@ -9,7 +9,7 @@
             app:cardElevation="@dimen/_2sdp"
             android:layout_margin="@dimen/_8sdp"
             app:cardCornerRadius="@dimen/_8sdp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/color_item"
             android:outlineSpotShadowColor="@color/circle_progress_color"
             android:outlineAmbientShadowColor="@color/circle_progress_color"
             android:layout_width="match_parent"

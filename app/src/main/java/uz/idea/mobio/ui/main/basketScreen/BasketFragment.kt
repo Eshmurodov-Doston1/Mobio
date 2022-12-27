@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,7 +105,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
 
     override fun setup(savedInstanceState: Bundle?) {
         binding.apply {
-
             // menu host
             menuMethode()
 
@@ -172,6 +172,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
         lifecycleScope.launchWhenCreated {
             basketViewModel.getBasketList().collect { pagingData->
                 basketAdapter.submitData(pagingData)
+                binding.swipeRefresh.isRefreshing = false
             }
         }
     }
@@ -186,7 +187,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
             basketAdapter.loadStateFlow.collectLatest { loadStates->
                 binding.progress.isVisible = loadStates.refresh is LoadState.Loading
                 binding.rvBasket.isVisible = loadStates.refresh !is LoadState.Loading
-                binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
     }

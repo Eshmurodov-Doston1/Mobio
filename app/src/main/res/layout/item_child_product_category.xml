@@ -9,6 +9,7 @@
         android:layout_marginVertical="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="@dimen/_2sdp"
+        app:cardBackgroundColor="@color/color_item"
         android:outlineSpotShadowColor="@color/app_background"
         android:outlineAmbientShadowColor="@color/app_background"
         android:layout_width="@dimen/_120sdp"
@@ -22,6 +23,9 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/image_product"
+                    android:tint="@android:color/transparent"
+                    android:tintMode="src_atop"
+                    android:backgroundTint="@android:color/transparent"
                     android:layout_marginTop="@dimen/_5sdp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +34,8 @@
                     android:src="@drawable/a53_white"
                     android:scaleType="centerInside"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"/>
+                    android:layout_height="0dp"
+                    tools:ignore="UseAppTint" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmer"

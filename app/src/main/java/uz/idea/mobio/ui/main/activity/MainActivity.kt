@@ -7,6 +7,7 @@ import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         setTheme(R.style.Theme_Mobio)
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
-
+        if (mainViewModel.getMyShared().theme == true)   AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             //check Network
         checkConnection(this,BASE_URL,Lifecycle.State.STARTED)
 
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         container = Container(this,this,navHostFragment.navController)
 
         // fab icon tint
-        binding.appBarMain.fabHome.setColorFilter(ContextCompat.getColor(this,R.color.app_background))
+        binding.appBarMain.fabHome.setColorFilter(ContextCompat.getColor(this,R.color.icon_color_navigation))
 
         //home create
         binding.appBarMain.bottomNavigation.menu.findItem(R.id.nav_home).isChecked = true
@@ -75,13 +77,9 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home,
-            R.id.category,
-            R.id.favorites,
-            R.id.questions,
-            R.id.privacy,
-            R.id.settings
-        ), drawerLayout)
+            R.id.nav_home, R.id.category,
+            R.id.favorites, R.id.questions,
+            R.id.privacy, R.id.settings), drawerLayout)
         setupActionBarWithNavController(navHostFragment.navController, appBarConfiguration)
         binding.appBarMain.bottomNavigation.setupWithNavController(navHostFragment.navController)
         navView.setupWithNavController(navHostFragment.navController)
@@ -158,6 +156,7 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
 
     }
 
+
     fun toolbarView(isVisible:Boolean){
        if (isVisible) binding.appBarMain.toolbar.gone()
         else binding.appBarMain.toolbar.visible()
@@ -174,6 +173,18 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
             }
             else -> {
                 binding.appBarMain.innerInclude.noInternetTv.visible()
+            }
+        }
+    }
+
+    fun scrollFabVisibleOrGone(isVisible: Boolean){
+        if (isVisible){
+            if (!binding.appBarMain.fabScroll.isVisible){
+                slideUp(binding.appBarMain.fabScroll)
+            }
+        } else {
+            if (binding.appBarMain.fabScroll.isVisible) {
+                slideDown(binding.appBarMain.fabScroll)
             }
         }
     }

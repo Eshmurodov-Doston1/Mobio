@@ -1,5 +1,6 @@
 package uz.idea.mobio.ui.main.searchScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -27,15 +28,21 @@ import uz.idea.mobio.R
 import uz.idea.mobio.adapters.genericPagingAdapter.PagingAdapter
 import uz.idea.mobio.databinding.FragmentSearchBinding
 import uz.idea.mobio.databinding.ItemProductCategoryBinding
+import uz.idea.mobio.databinding.ItemViewpagerBinding
 import uz.idea.mobio.models.basketModel.addBasket.addBasketReq.AddBasketReq
 import uz.idea.mobio.models.basketModel.addBasket.addBasketRes.AddBasketRes
+import uz.idea.mobio.models.favoritesData.favoritesReq.FavoritesReq
+import uz.idea.mobio.models.favoritesData.resSaveFavorite.ResSaveFavorite
 import uz.idea.mobio.models.searchModel.DataX
+import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_BASKET
+import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_FAVORITES
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
 import uz.idea.mobio.utils.extension.*
 import uz.idea.mobio.utils.resPonseState.ResponseState
 import uz.idea.mobio.vm.basketVm.BasketViewModel
+import uz.idea.mobio.vm.homeVm.HomeViewModel
 import uz.idea.mobio.vm.searchVm.SearchViewModel
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
@@ -45,6 +52,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private val searchViewModel:SearchViewModel by viewModels()
     // basket viewModel
     private val basketViewModel:BasketViewModel by viewModels()
+    // home viewModel
+    private val homeViewModel:HomeViewModel by viewModels()
     private var countMotion = 0
     private val searchAdapter:PagingAdapter<DataX> by lazy {
         PagingAdapter(R.layout.item_product_category){ data, position, clickType,viewBinding ->
@@ -56,10 +65,40 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     val addBasketReq = AddBasketReq(data?.id.toString())
                     addBasket(addBasketReq,viewBinding)
                 }
+                CLICK_FAVORITES->{
+                    favoriteProduct(data?.id?:0,viewBinding)
+                }
             }
         }
     }
 
+
+    private fun favoriteProduct(productID:Int,viewBinding:ViewBinding){
+        val favoritesReq = FavoritesReq(product_id = productID.toString())
+        homeViewModel.saveFavorite(favoritesReq)
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.favoritesData.collect { result->
+                when(result){
+                    is ResponseState.Loading->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.visible() }
+                    }
+                    is ResponseState.Success->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
+                        val resSaveFavorite = result.data?.parseClass(ResSaveFavorite::class.java)
+                        activityMain.motionAnimation("success",resSaveFavorite?.message)
+                    }
+                    is ResponseState.Error->{
+                        if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
+                        activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
+                            if (clickType==2) activityMain.startActivity(Intent(activityMain, AuthActivity::class.java))
+                            else if (clickType == 1) favoriteProduct(productID,viewBinding)
+                            basketViewModel.clearErrorTable()
+                        }
+                    }
+                }
+            }
+        }
+    }
     private fun addBasket(addBasketReq: AddBasketReq,viewBinding:ViewBinding){
         countMotion = 0
         basketViewModel.saveBasket(addBasketReq)
@@ -80,6 +119,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) addBasket(addBasketReq,viewBinding)
+                            else if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
                             basketViewModel.clearErrorTable()
                         }
                     }
@@ -164,6 +204,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 lifecycleScope.launchWhenCreated {
                     searchViewModel.getSearchData(searchText).collect { pagingData->
                         searchAdapter.submitData(pagingData)
+                        binding.swipeRefresh.isRefreshing = false
                     }
                 }
             }
@@ -182,7 +223,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             searchAdapter.loadStateFlow.collectLatest { loadStates->
                 binding.progress.isVisible = loadStates.refresh is LoadState.Loading
                 binding.rvSearch.isVisible = loadStates.refresh !is LoadState.Loading
-                binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
 

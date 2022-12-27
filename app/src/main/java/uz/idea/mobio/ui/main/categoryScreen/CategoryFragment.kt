@@ -69,7 +69,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             categoryPagingAdapter.loadStateFlow.collectLatest { loadStates->
                 binding.includeShimmer.shimmerCons.isVisible = loadStates.refresh is LoadState.Loading
                 binding.rvCategory.isVisible = loadStates.refresh !is LoadState.Loading
-                binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }
         }
     }

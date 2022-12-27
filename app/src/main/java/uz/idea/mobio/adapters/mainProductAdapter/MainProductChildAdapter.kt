@@ -18,10 +18,10 @@ class MainProductChildAdapter(private val mainProductAdapter: MainProductAdapter
         @SuppressLint("SetTextI18n")
         fun onBind(product: Product, position:Int){
             itemView.setOnClickListener {
-                mainProductAdapter.onItemClickListener.onItemChildClick(product,position)
+                mainProductAdapter.onItemClickListener.onItemChildClick(product,position,binding)
             }
             binding.cardFavorite.setOnClickListener {
-                mainProductAdapter.onItemClickListener.onItemChildClickFavorites(product,position)
+                mainProductAdapter.onItemClickListener.onItemChildClickFavorites(product,position,binding)
             }
             binding.cardBasket.setOnClickListener {
                 mainProductAdapter.onItemClickListener.onItemChildClickBasket(product,position,binding)

@@ -18,24 +18,30 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:windowSoftInputMode="adjustPan"
-            android:name=".ui.auth.activity.AuthActivity"
+            android:name=".ui.introduction.IntroductionActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.auth.activity.AuthActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ui.main.activity.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:exported="true"
             android:theme="@style/Theme.Mobio"
-            android:exported="true">
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/app_background_color"
     tools:context=".ui.main.homeScreen.HomeFragment">
     <include
         android:id="@+id/include_shimmer"
-        android:visibility="visible"
+        android:visibility="gone"
         layout="@layout/shimmer_main_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.core.widget.NestedScrollView
@@ -101,6 +101,7 @@
                     android:id="@+id/rv_category_product"
                     tools:listitem="@layout/item_category_product"
                     android:overScrollMode="never"
+                    android:background="@color/app_background_color"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_width="match_parent"
@@ -110,6 +111,7 @@
                     tools:itemCount="2"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
+                    android:background="@color/app_background_color"
                     tools:listitem="@layout/item_category_product1"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_width="match_parent"
@@ -117,4 +119,23 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:backgroundTint="@color/circle_progress_color"
+        app:layout_constraintHorizontal_bias="0.98"
+        android:src="@drawable/ic_top_arrow"
+        android:backgroundTint="@color/circle_progress_color"
+        android:tint="@color/white"
+        android:tintMode="src_in"
+        app:rippleColor="@color/circle_progress_color"
+        app:fabSize="normal"
+        app:fabCustomSize="@dimen/_35sdp"
+        app:layout_constraintVertical_bias="0.9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

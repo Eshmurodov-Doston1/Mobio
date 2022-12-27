@@ -59,5 +59,10 @@
         android:name="uz.idea.mobio.ui.main.productInfoScreen.ProductInfoFragment"
         android:label="fragment_product_info"
         tools:layout="@layout/fragment_product_info" />
+    <fragment
+        android:id="@+id/purchaseFragment"
+        android:name="uz.idea.mobio.ui.main.purchaseScreen.PurchaseFragment"
+        android:label="fragment_purchase"
+        tools:layout="@layout/fragment_purchase" />
 
 </navigation>

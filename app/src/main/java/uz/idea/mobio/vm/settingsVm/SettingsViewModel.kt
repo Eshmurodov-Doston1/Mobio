@@ -41,6 +41,13 @@ class SettingsViewModel @Inject constructor(
             _logOut.emit(ResponseState.Error(NO_INTERNET))
         }
     }
+
+
+    fun setTheme(isTheme:Boolean){
+        mySharedPreferences.theme = isTheme
+    }
+
+    fun getMyShared() = mySharedPreferences
     fun clearShared() = mySharedPreferences.clearToken()
     fun clearErrorTable() = errorRepository.deleteTableError()
 }

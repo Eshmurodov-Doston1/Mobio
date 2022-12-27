@@ -6,28 +6,22 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import uz.idea.mobio.R
-import uz.idea.mobio.databinding.BasketItemBinding
-import uz.idea.mobio.databinding.ItemCategoryBinding
-import uz.idea.mobio.databinding.ItemCategoryMainBinding
-import uz.idea.mobio.databinding.ItemCommentBinding
-import uz.idea.mobio.databinding.ItemProductCategoryBinding
-import uz.idea.mobio.databinding.ItemViewpagerBinding
-import uz.idea.mobio.databinding.ItemViewpagerProductBinding
+import uz.idea.mobio.databinding.*
 import uz.idea.mobio.models.categoryModel.Data
 import uz.idea.mobio.models.locale.LocaleCommentModel
+import uz.idea.mobio.models.locale.LocalePager
+import uz.idea.mobio.models.locale.user_image_url1
 import uz.idea.mobio.models.newProductModel.DataX
 import uz.idea.mobio.models.productModel.Photo
-import uz.idea.mobio.models.productModel.ProductModel
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_ADD
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_BASKET
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_FAVORITES
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_MINUS
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
 import uz.idea.mobio.utils.appConstant.AppConstant.IMAGE_URL
-import uz.idea.mobio.utils.extension.gone
-import uz.idea.mobio.utils.extension.imageData
-import uz.idea.mobio.utils.extension.numberFormatter
-import uz.idea.mobio.utils.extension.visible
+import uz.idea.mobio.utils.extension.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Holder {
@@ -59,23 +53,42 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
            R.layout.item_comment->{
                itemComment(data,position,onClick)
            }
+           R.layout.item_introduction->{
+               itemIntroduction(data,position,onClick)
+           }
        }
     }
 
+    // item introduction
+    private fun <T> itemIntroduction(data:T, position: Int, onClick: (data: T, position: Int, clickType:Int, viewBinding:ViewBinding) -> Unit){
+        val binding = ItemIntroductionBinding.bind(itemView)
+        if (data is LocalePager){
+            binding.textIntroduction.text = data.message
+            binding.imageIntroduction.setImageResource(data.image)
+        }
+    }
+
     // item comment
-    private fun <T> itemComment(data:T, position: Int, onClick: (data: T, position: Int, clickType:Int,viewBinding:ViewBinding) -> Unit){
+    @SuppressLint("SimpleDateFormat")
+    private fun <T> itemComment(data:T, position: Int, onClick: (data: T, position: Int, clickType:Int, viewBinding:ViewBinding) -> Unit){
         val binding = ItemCommentBinding.bind(itemView)
-        if (data is LocaleCommentModel){
-            binding.userImage.imageData(data.imageUser?:"",itemView.context)
-            binding.nameUser.text = data.name
-            binding.rate.setStar(data.rate?:0F)
-            binding.timeComment.text = data.time
+        if (data is uz.idea.mobio.models.comment.Data){
+            binding.userImage.imageData(user_image_url1,itemView.context)
+            binding.nameUser.text = data.author
+            binding.rate.setStar(data.rating.toFloat())
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            val date = format.parse(data.created_at)
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd hh:MM", Locale.getDefault())
+            val dateFormat = simpleDateFormat.format(date)
+             binding.timeComment.text = dateFormat
             binding.commentTv.text = data.comment
             itemView.setOnClickListener {
                 onClick.invoke(data,position, DEFAULT_CLICK,binding)
             }
         }
     }
+
+
 
     // item basket
     @SuppressLint("SetTextI18n")
@@ -245,6 +258,11 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
         itemView.setOnClickListener {
             onClick.invoke(data,position, DEFAULT_CLICK,binding)
         }
+
+        binding.favorite.setOnClickListener {
+         onClick.invoke(data,position,CLICK_FAVORITES,binding)
+        }
+
         binding.buttonPay.setOnClickListener {
             onClick.invoke(data,position, DEFAULT_CLICK,binding)
         }

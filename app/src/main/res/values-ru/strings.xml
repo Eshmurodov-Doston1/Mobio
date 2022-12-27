@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mobio</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Заголовок навигации</string>
+    <string name="action_settings">Настройки</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_info_text">Добро пожаловать в мобильное приложение Mobio</string>
+    <string name="phone_number">Телефонный номер</string>
+    <string name="login">Авторизоваться</string>
+    <string name="register">Регистр</string>
+    <string name="password">Пароль</string>
+    <string name="login_btn">Авторизация</string>
+    <string name="register_btn">Подписаться</string>
+    <string name="full_name">Полное имя фамилия</string>
+    <string name="email">Электронное письмо</string>
+    <string name="close">Неисправность</string>
+    <string name="loading">Ожидать...</string>
+    <string name="cancel">Отмена</string>
+    <string name="repeat">Попробуй снова</string>
+    <string name="multi_request">Слишком много запросов</string>
+    <string name="server_error">Нет связи с сервером, попробуйте позже</string>
+    <string name="no_internet">Нет подключения к Интернету, пожалуйста, проверьте Интернет</string>
+    <string name="slow_internet">Интернет очень медленный</string>
+    <string name="no_connect_internet">Интернет-соединение недоступно</string>
+
+    <string name="menu_home">Главное окно</string>
+    <string name="category">Департаменты</string>
+    <string name="favorites">Избранное</string>
+    <string name="questions">Часто задаваемые вопросы</string>
+    <string name="privacy">Условия эксплуатации</string>
+    <string name="settings">Настройки</string>
+    <string name="search">Поиск</string>
+    <string name="basket">Корзина</string>
+    <string name="see_all">Увидеть все</string>
+    <string name="buy_now">Купи сейчас</string>
+    <string name="pay_type">сум</string>
+    <string name="discount">Скидка</string>
+    <string name="summa">Расходы:</string>
+    <string name="comment_text">Комментарий</string>
+    <string name="no_comment">Нет доступных комментариев</string>
+    <string name="old_price">Предыдущая цена:</string>
+    <string name="percent">Процент:</string>
+    <string name="buy">Покупка</string>
+    <string name="comment">Оставить комментарий</string>
+    <string name="search_text">Поиск...</string>
+    <string name="delete_basket">Товар удален из корзины</string>
+    <string name="comment_title">Оставить комментарий:</string>
+    <string name="reade_more_text">Читать все</string>
+    <string name="user_information">Информация о пользователе</string>
+    <string name="uzb_lang">O\'zbek tili</string>
+    <string name="uzb_lang_title">Узбекский язык</string>
+    <string name="ru_lang">Rus tili</string>
+    <string name="crl_lang">Ўзбек тили</string>
+    <string name="day_theme">Дневной статус</string>
+    <string name="night_theme">Ночной режим</string>
+    <string name="info_application">О приложении</string>
+    <string name="share_application">Поделитесь приложением</string>
+    <string name="money_history">История расходов</string>
+    <string name="offerta">Условия публичной оферты</string>
+    <string name="info_company">О нас</string>
+    <string name="language_tv">Выбор языка</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="logout_text">Выйти из аккунт ?</string>
+    <string name="accepted">Принятие</string>
+    <string name="no_auth">Вы не зарегистрированы</string>
+    <string name="auth_text">Подписаться</string>
+    <string name="no_data">Информация недоступна</string>
+    <string name="check_language">Выберите язык</string>
+    <string name="save_lang">Изменить язык</string>
+    <string name="rate_text">Оцените оказанные вам услуги?</string>
+</resources>

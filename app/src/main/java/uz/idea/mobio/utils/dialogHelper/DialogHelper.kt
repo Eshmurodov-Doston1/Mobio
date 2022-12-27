@@ -10,6 +10,7 @@ import uz.idea.mobio.databinding.DialogBinding
 import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.activity.MainActivity
 import uz.idea.mobio.utils.appConstant.AppConstant.NO_INTERNET
+import uz.idea.mobio.utils.extension.isNotEmptyOrNull
 import uz.idea.mobio.utils.extension.startNewActivity
 import uz.idea.mobio.utils.sharedPreferences.MySharedPreferences
 
@@ -33,9 +34,18 @@ class DialogHelper(
                     var errorMessage = ""
                     listError.onEach {  errorEntity ->
                         if (errorEntity.errorCode==401){
-                            mySharedPreferences.clearToken()
-                            activity.startNewActivity(AuthActivity::class.java)
-                            activity.finish()
+                            if (mySharedPreferences.accessToken.isNotEmptyOrNull()){
+                                mySharedPreferences.clearToken()
+                                activity.startNewActivity(AuthActivity::class.java)
+                                activity.finish()
+                            } else {
+                               errorMessage = activity.getString(R.string.no_auth)
+                                binding.okBtn.text = activity.getString(R.string.auth_text)
+                            }
+                            binding.okBtn.setOnClickListener {
+                                onClick.invoke(2)
+                                create.dismiss()
+                            }
                         }else{
                             errorMessage += "${errorEntity.error} \n"
                         }

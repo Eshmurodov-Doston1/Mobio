@@ -13,16 +13,21 @@
     <color name="text_color_gray">#B6B3B3</color>
     <color name="text_color_tab">#787777</color>
     <color name="app_background">#E41B4D</color>
+    <color name="app_background_color">#FFFFFFFF</color>
+    <color name="color_transparent">#00FFFFFF</color>
+    <color name="color_item">#FFFFFFFF</color>
     <color name="icon_color_navigation">#E41B4D</color>
     <color name="drawable_color">#FFFFFFFF</color>
     <color name="card_category">#FFEB3B</color>
     <color name="card_data_color">#C9FFFFFF</color>
+    <color name="icon_favorite_tint">#6B7280</color>
     <color name="line_color">#B6B3B3</color>
     <color name="shimmer_color">#B46C6A6A</color>
     <color name="circle_progress_color">#E41B4D</color>
     <color name="card_discount_color">#ADE41B4D</color>
     <color name="basket_color">#ADD6D6D6</color>
     <color name="item_color">#FFFFFF</color>
+    <color name="color_secondary">#E41B4D</color>
     <color name="icon_settings_card_dolor">#41E41B4D</color>
 <!--    Application colors-->
 </resources>

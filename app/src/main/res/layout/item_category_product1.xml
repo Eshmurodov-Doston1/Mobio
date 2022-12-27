@@ -8,6 +8,7 @@
         android:layout_width="0dp"
        android:layout_marginVertical="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:cardBackgroundColor="@color/app_background_color"
         app:layout_constraintRight_toRightOf="parent"
         android:outlineAmbientShadowColor="@color/app_background"
         android:outlineSpotShadowColor="@color/app_background"

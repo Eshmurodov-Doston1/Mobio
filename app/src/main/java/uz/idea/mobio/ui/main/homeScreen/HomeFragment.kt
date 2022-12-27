@@ -1,9 +1,11 @@
 package uz.idea.mobio.ui.main.homeScreen
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -31,15 +33,21 @@ import uz.idea.mobio.adapters.mainProductAdapter.MainProductAdapter
 import uz.idea.mobio.databinding.FragmentHomeBinding
 import uz.idea.mobio.databinding.ItemChildProductCategoryBinding
 import uz.idea.mobio.databinding.ItemProductCategoryBinding
+import uz.idea.mobio.databinding.ItemViewpagerBinding
 import uz.idea.mobio.models.basketModel.addBasket.addBasketReq.AddBasketReq
 import uz.idea.mobio.models.basketModel.addBasket.addBasketRes.AddBasketRes
 import uz.idea.mobio.models.categoryModel.Data
+import uz.idea.mobio.models.favoritesData.favoritesReq.FavoritesReq
+import uz.idea.mobio.models.favoritesData.resSaveFavorite.ResSaveFavorite
 import uz.idea.mobio.models.mainChildModel.MainChildModel
 import uz.idea.mobio.models.mainProduct.MainProductModel
 import uz.idea.mobio.models.mainProduct.Product
 import uz.idea.mobio.models.newProductModel.DataX
 import uz.idea.mobio.models.newProductModel.NewProduct
+import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
+import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_FAVORITES
+import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
 import uz.idea.mobio.utils.extension.*
 import uz.idea.mobio.utils.resPonseState.ResponseState
 import uz.idea.mobio.vm.basketVm.BasketViewModel
@@ -75,23 +83,58 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     // new product adapter
     private val newProductAdapter:GenericRvAdapter<DataX> by lazy {
         GenericRvAdapter(R.layout.item_viewpager){ data, position, clickType,viewBinding ->
-            activityMain.container?.screenNavigate?.createProductInfoScreen(data.id)
+            when(clickType){
+                DEFAULT_CLICK->{
+                    activityMain.container?.screenNavigate?.createProductInfoScreen(data.id)
+                }
+                CLICK_FAVORITES->{
+                    favoriteProduct(data.id,viewBinding)
+                }
+            }
+        }
+    }
+
+
+    private fun favoriteProduct(productID:Int,viewBinding:ViewBinding){
+        val favoritesReq = FavoritesReq(product_id = productID.toString())
+        homeViewModel.saveFavorite(favoritesReq)
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.favoritesData.collect { result->
+                when(result){
+                    is ResponseState.Loading->{
+                        if (viewBinding is ItemViewpagerBinding){ viewBinding.linearProgress.visible() }
+                    }
+                    is ResponseState.Success->{
+                        if (viewBinding is ItemViewpagerBinding){ viewBinding.linearProgress.gone() }
+                        val resSaveFavorite = result.data?.parseClass(ResSaveFavorite::class.java)
+                        activityMain.motionAnimation("success",resSaveFavorite?.message)
+                    }
+                    is ResponseState.Error->{
+                        if (viewBinding is ItemViewpagerBinding){ viewBinding.linearProgress.gone() }
+                        activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
+                            if (clickType==1) favoriteProduct(productID,viewBinding) else
+                                if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
+                            basketViewModel.clearErrorTable()
+                        }
+                    }
+                }
+            }
         }
     }
 
     // main product adapter
     private val mainProductAdapter: MainProductAdapter by lazy {
         MainProductAdapter(object: MainProductAdapter.OnItemClickListener{
-            override fun onItemClick(data: uz.idea.mobio.models.mainProduct.Data, position: Int) {
+            override fun onItemClick(data: uz.idea.mobio.models.mainProduct.Data, position: Int,viewBinding: ViewBinding) {
                 activityMain.container?.screenNavigate?.createCategoryProduct(data.id,data.title)
             }
 
-            override fun onItemChildClick(product: Product, position: Int) {
+            override fun onItemChildClick(product: Product, position: Int,viewBinding: ViewBinding) {
                 activityMain.container?.screenNavigate?.createProductInfoScreen(product.productsss!![0].id)
             }
 
-            override fun onItemChildClickFavorites(product: Product, position: Int) {
-
+            override fun onItemChildClickFavorites(product: Product, position: Int,viewBinding: ViewBinding) {
+                favoriteProduct((product.productsss ?: emptyList())[0].id,viewBinding)
             }
 
             override fun onItemChildClickBasket(product: Product, position: Int,viewBinding: ViewBinding) {
@@ -122,6 +165,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         if (viewBinding is ItemChildProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) addBasket(addBasketReq,viewBinding)
+                            if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
                             basketViewModel.clearErrorTable()
                         }
                     }
@@ -162,7 +206,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         binding.apply {
             if (listProduct.isEmpty()){
-
                 lifecycleScope.launchWhenStarted {
                     coroutineScope {
                         // category methode
@@ -211,7 +254,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 // nestedScroll
                 nestedScrollHome.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                    if (scrollY>oldScrollY){
+                        activityMain.scrollFabVisibleOrGone(true)
+                    }
+                    if (scrollY==0){
+                        activityMain.scrollFabVisibleOrGone(false)
+                    }
                     if (scrollY < oldScrollY) {
+                        if (scrollY!=0){
+                            activityMain.scrollFabVisibleOrGone(true)
+                        }
                         activityMain.bottomBarView(true)
                     }
                     if (scrollY >= (abs(v.measuredHeight - nestedScrollHome.getChildAt(0).measuredHeight))) {
@@ -219,6 +271,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
 
+                // fab icon tint
+                binding.fabScroll.setColorFilter(ContextCompat.getColor(requireContext(),R.color.white))
+
+                fabScroll.setOnClickListener { nestedScrollHome.smoothScrollTo(0,0) }
 
 
                 swipeRefresh.setOnRefreshListener {

@@ -21,7 +21,7 @@ class MainProductAdapter(
             binding.rvProduct.adapter = mainProductChildAdapter
             binding.rvProduct.setItemViewCacheSize(data.products.size)
             binding.linear.setOnClickListener {
-                onItemClickListener.onItemClick(data,position)
+                onItemClickListener.onItemClick(data,position,binding)
             }
         }
     }
@@ -34,9 +34,9 @@ class MainProductAdapter(
       holder.onBind(getItem(position),position)
     }
     interface OnItemClickListener{
-        fun onItemClick(data:Data,position:Int)
-        fun onItemChildClick(product:Product,position:Int)
-        fun onItemChildClickFavorites(product:Product,position:Int)
+        fun onItemClick(data:Data,position:Int,viewBinding: ViewBinding)
+        fun onItemChildClick(product:Product,position:Int,viewBinding: ViewBinding)
+        fun onItemChildClickFavorites(product:Product,position:Int,viewBinding: ViewBinding)
         fun onItemChildClickBasket(product:Product,position:Int,viewBinding:ViewBinding)
     }
 }

@@ -30,6 +30,10 @@ class ScreenNavigate(
         navController.navigate(R.id.productInfoFragment,bundle,animationViewCreateRight())
     }
 
+    fun createPurchaseScreen(){
+        navController.navigate(R.id.purchaseFragment,Bundle(),animationViewCreateRight())
+    }
+
 
     fun createCategoryScreen(){
         navController.navigate(R.id.category,Bundle(),animationViewCreateRight())

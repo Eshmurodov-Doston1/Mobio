@@ -7,6 +7,7 @@ import org.json.JSONObject
 import uz.idea.mobio.BuildConfig.BASE_URL
 import uz.idea.mobio.models.auth.ResAuth
 import uz.idea.mobio.utils.appConstant.AppConstant.APPLICATION_JSON
+import uz.idea.mobio.utils.extension.isNotEmptyOrNull
 import uz.idea.mobio.utils.sharedPreferences.MySharedPreferences
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class TokenInterceptor @Inject constructor(
              val body: RequestBody = RequestBody.create(oldResponse.body?.contentType(),params.toString())
              val nRequest = Request.Builder()
                  .url("${BASE_URL}/api/refresh/token")
-                 .put(body)
+                 .post(body)
                  .build()
 
              val responseRefresh = client.newCall(nRequest).execute()
@@ -53,7 +54,7 @@ class TokenInterceptor @Inject constructor(
 
     private fun newRequestWithAccessToken(request: Request,accessToken: String): Request {
         return request.newBuilder()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+            .header(HttpHeaders.AUTHORIZATION, if (accessToken.isNotEmptyOrNull()) "Bearer $accessToken" else "")
             .header(HttpHeaders.ACCEPT,APPLICATION_JSON)
             .header(HttpHeaders.CONTENT_TYPE,APPLICATION_JSON)
             .build()
