@@ -65,7 +65,7 @@
             android:id="@+id/bottom_navigation"
             app:menu="@menu/bottom_navigation"
             app:itemIconSize="@dimen/_15sdp"
-            app:itemTextColor="@color/text_color_red"
+            app:itemTextColor="@color/icon_color_navigation"
             app:itemIconTint="@color/icon_color_navigation"
             app:itemRippleColor="@null"
             app:labelVisibilityMode="selected"

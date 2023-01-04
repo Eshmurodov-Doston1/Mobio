@@ -5,6 +5,7 @@ import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -13,6 +14,8 @@ import uz.idea.mobio.R
 import uz.idea.mobio.adapters.authPager.AdapterAuthPager
 import uz.idea.mobio.databinding.ActivityAuthBinding
 import uz.idea.mobio.ui.main.activity.MainActivity
+import uz.idea.mobio.utils.appConstant.AppConstant
+import uz.idea.mobio.utils.appConstant.AppConstant.NO_AUTH_STATUS
 import uz.idea.mobio.utils.extension.isNotEmptyOrNull
 import uz.idea.mobio.utils.extension.startNewActivity
 import uz.idea.mobio.vm.authVm.AuthViewModel
@@ -23,7 +26,12 @@ class AuthActivity : AppCompatActivity() {
     val binding:ActivityAuthBinding by viewBinding()
     private val adapterAuthPager:AdapterAuthPager by lazy{AdapterAuthPager(this)}
     private val gson:Gson by lazy { Gson() }
-    private val authViewModel:AuthViewModel by viewModels()
+    val authViewModel:AuthViewModel by viewModels()
+
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launchWhenStarted { authViewModel.statusApp.emit(intent.getIntExtra(NO_AUTH_STATUS,0)) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -88,8 +88,14 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                             hideLoadingLoginBtn()
                             val resAuth = result.data?.parseClass(ResAuth::class.java)
                             authViewModel.saveSharedPref(resAuth)
-                            requireActivity().startNewActivity(MainActivity::class.java)
-                            requireActivity().finish()
+                            authActivity.authViewModel.statusApp.collect { status->
+                                if (status==2){
+                                    requireActivity().finish()
+                                } else {
+                                    requireActivity().startNewActivity(MainActivity::class.java)
+                                    requireActivity().finish()
+                                }
+                            }
                         }
                         is ResponseState.Error->{
                             hideLoadingLoginBtn()

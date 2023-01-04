@@ -55,7 +55,8 @@ class MainProductChildAdapter(private val mainProductAdapter: MainProductAdapter
                     product.rate.onEach { rate->
                         rateStar += rate.rating
                     }
-                    binding.rate.text = (rateStar/product.rate.size.toDouble()).toString()
+
+                    binding.rate.text =  String.format("%.2f", rateStar/product.rate.size.toDouble())
                 } else {
                     binding.starCard.gone()
                 }

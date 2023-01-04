@@ -1,4 +1,4 @@
-package uz.idea.mobio.models.comment
+package uz.idea.mobio.models.comment.commentList
 
 data class Data(
     val author: String,

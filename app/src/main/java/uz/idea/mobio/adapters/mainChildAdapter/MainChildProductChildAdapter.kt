@@ -47,16 +47,19 @@ class MainChildProductChildAdapter(private val mainProductAdapter: MainChildProd
                     binding.iconStar.visible()
                     binding.textRate.visible()
                     product.rate.onEach { rate->
-                        rateStar += rate.rating
+                        rateStar += rate.rating.toFloat()
                     }
                     binding.textRate.text = (rateStar/product.rate.size.toDouble()).toString()
                 } else {
                     binding.iconStar.gone()
                     binding.textRate.gone()
                 }
+                LogData(product.rate.toString())
                 var commentCount = 0
                 product.rate?.onEach { rate->
-                    commentCount += rate.comment.toInt()
+                    if (rate.comment.isNotEmptyOrNull()) {
+                        commentCount += 1
+                    }
                 }
                 if (commentCount!=0){
                     binding.commentTv.text = "$commentCount ${itemView.context.getString(R.string.comment_text)}"

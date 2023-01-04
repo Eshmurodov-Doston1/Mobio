@@ -46,6 +46,7 @@ import uz.idea.mobio.models.newProductModel.DataX
 import uz.idea.mobio.models.newProductModel.NewProduct
 import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
+import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_FAVORITES
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
 import uz.idea.mobio.utils.extension.*
@@ -113,7 +114,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         if (viewBinding is ItemViewpagerBinding){ viewBinding.linearProgress.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) favoriteProduct(productID,viewBinding) else
-                                if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
+                                if (clickType == 2) {
+                                    val intent = Intent(activityMain,AuthActivity::class.java)
+                                    intent.putExtra(AppConstant.NO_AUTH_STATUS,2)
+                                    activityMain.startActivity(intent)
+                                }
                             basketViewModel.clearErrorTable()
                         }
                     }
@@ -165,7 +170,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         if (viewBinding is ItemChildProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) addBasket(addBasketReq,viewBinding)
-                            if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
+                            if (clickType == 2){
+                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                intent.putExtra(AppConstant.NO_AUTH_STATUS,2)
+                                activityMain.startActivity(intent)
+                            }
                             basketViewModel.clearErrorTable()
                         }
                     }
@@ -293,8 +302,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                     //}
                 }
-
-
 
                 // swipe refresh color
                 swipeRefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.app_background))

@@ -8,6 +8,6 @@ data class Rate(
     val id: Int,
     val model_id: Int,
     val model_type: String,
-    val rating: Int,
+    val rating: String,
     val updated_at: String
 )

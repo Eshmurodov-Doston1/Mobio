@@ -33,16 +33,24 @@
             app:lottie_autoPlay="true"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_80sdp"/>
+
         <uz.jamshid.library.ExactRatingBar
             android:id="@+id/rating_bar"
             app:starCount="5"
             app:isIndicator="false"
             app:starFillColor="@color/circle_progress_color"
             app:starSize="60"
-            app:starValue="3"
+            app:starValue="0"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:indeterminateTint="@color/circle_progress_color"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"/>
         <androidx.appcompat.widget.LinearLayoutCompat
             android:orientation="horizontal"
             android:layout_margin="@dimen/_10sdp"
@@ -67,7 +75,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="normal"
-                android:text="@string/accepted"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:fontFamily="@font/inter_medium"
                 android:layout_weight="1"

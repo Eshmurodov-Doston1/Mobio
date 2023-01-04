@@ -74,5 +74,6 @@
     <string name="check_language">Тилни танланг</string>
     <string name="save_lang">Тилни ўзгартириш</string>
     <string name="rate_text">Сизга кўрсатилган хизматлар бўйича бахо қўйинг?</string>
+    <string name="save">Сақлаш</string>
 
 </resources>

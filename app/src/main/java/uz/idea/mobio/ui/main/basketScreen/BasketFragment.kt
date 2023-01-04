@@ -159,6 +159,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
               return  when(menuItem.itemId){
                     R.id.buy_products->{
+                        activityMain.container?.screenNavigate?.createPurchaseScreen()
                         true
                     }
                   else-> false

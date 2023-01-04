@@ -36,6 +36,8 @@ class AuthViewModel @Inject constructor(
 
     val mysharedPref:MySharedPreferences get() = mySharedPreferences
 
+    val statusApp = MutableStateFlow(0)
+
     fun saveData(password:String,phone:String){
         mySharedPreferences.phone = phone
         mySharedPreferences.password = password

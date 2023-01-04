@@ -72,7 +72,7 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
     @SuppressLint("SimpleDateFormat")
     private fun <T> itemComment(data:T, position: Int, onClick: (data: T, position: Int, clickType:Int, viewBinding:ViewBinding) -> Unit){
         val binding = ItemCommentBinding.bind(itemView)
-        if (data is uz.idea.mobio.models.comment.Data){
+        if (data is uz.idea.mobio.models.comment.commentList.Data){
             binding.userImage.imageData(user_image_url1,itemView.context)
             binding.nameUser.text = data.author
             binding.rate.setStar(data.rating.toFloat())

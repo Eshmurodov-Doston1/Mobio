@@ -5,9 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -15,36 +13,34 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import org.w3c.dom.Comment
 import uz.idea.mobio.R
 import uz.idea.mobio.adapters.genericRvAdapter.GenericRvAdapter
 import uz.idea.mobio.databinding.FragmentProductInfoBinding
-import uz.idea.mobio.databinding.ItemProductCategoryBinding
 import uz.idea.mobio.databinding.RateViewBinding
 import uz.idea.mobio.models.basketModel.addBasket.addBasketReq.AddBasketReq
 import uz.idea.mobio.models.basketModel.addBasket.addBasketRes.AddBasketRes
-import uz.idea.mobio.models.comment.Comment
-import uz.idea.mobio.models.comment.Data
+import uz.idea.mobio.models.comment.commentList.CommentList
+import uz.idea.mobio.models.comment.commentList.Data
 import uz.idea.mobio.models.comment.saveComment.SaveComment
-import uz.idea.mobio.models.comment.saveComment.resSaveComment.ResSaveComment
 import uz.idea.mobio.models.favoritesData.favoritesReq.FavoritesReq
 import uz.idea.mobio.models.favoritesData.resSaveFavorite.ResSaveFavorite
-import uz.idea.mobio.models.locale.LocaleCommentModel
 import uz.idea.mobio.models.productModel.Photo
 import uz.idea.mobio.models.productModel.ProductModel
+import uz.idea.mobio.models.userDataModel.UserDataModel
 import uz.idea.mobio.ui.auth.activity.AuthActivity
-import uz.idea.mobio.ui.main.activity.MainActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
-import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.IMAGE_URL
+import uz.idea.mobio.utils.appConstant.AppConstant.NO_AUTH_STATUS
 import uz.idea.mobio.utils.appConstant.AppConstant.PRODUCT_ID
 import uz.idea.mobio.utils.extension.*
 import uz.idea.mobio.utils.resPonseState.ResponseState
 import uz.idea.mobio.vm.basketVm.BasketViewModel
 import uz.idea.mobio.vm.homeVm.HomeViewModel
+import uz.idea.mobio.vm.mainVm.MainViewModel
 import uz.idea.mobio.vm.productInfoVm.ProductInfoViewModel
-import uz.jamshid.library.ExactRatingBar
 
 @AndroidEntryPoint
 class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
@@ -54,6 +50,9 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
     private val basketViewModel:BasketViewModel by viewModels()
     // homeViewModel
     private val homeViewModel:HomeViewModel by viewModels()
+    // mainViewModel
+    private val mainViewModel:MainViewModel by viewModels()
+
     private var productID:Int = 0
     private val adapterViewPager:GenericRvAdapter<Photo> by lazy {
         GenericRvAdapter(R.layout.item_viewpager_product){data, position, clickType,viewBinding ->
@@ -138,7 +137,7 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                             binding.imageSend.setOnClickListener {
                                 val comment = binding.editeTextComment.text.toString().trim()
                                 if (comment.isNotEmptyOrNull()){
-                                    rateMethode(comment)
+                                    rateMethode(comment,productModel)
                                 } else {
                                     activityMain.motionAnimation("error",getString(R.string.no_comment))
                                 }
@@ -161,12 +160,16 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                 if (commentEdit.isVisible) commentEdit.gone()
                 else commentEdit.visible()
             }
+            commentEdit.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus)
+                    nested.scrollBy(0, 150)
+            }
             // comment
            comment()
         }
     }
 
-    private fun rateMethode(comment:String){
+    private fun rateMethode(comment:String,productModel: ProductModel?){
         val alertDialog = AlertDialog.Builder(requireContext())
         val create = alertDialog.create()
         val bindingRate = RateViewBinding.inflate(activityMain.layoutInflater)
@@ -174,24 +177,54 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
             cancel.setOnClickListener {
                 create.dismiss()
             }
-            ratingBar.onRatingBarChanged = object: ExactRatingBar.OnRatingBarChanged{
-                override fun newRate(rate: Float) {
-                    LogData(rate.toString())
-                }
-            }
+            var ratingData = ""
             ratingBar.onRateChanged = { rate->
-                LogData(rate.toString())
+                ratingData = rate.toDouble().numberFormatter()
             }
             okBtn.setOnClickListener {
-
+                userData(comment,ratingData,productModel,bindingRate,create)
             }
-            //                                    val saveComment = SaveComment(comment,"",productModel?.data?)
-//                                    saveComment()
+           //  saveComment()
         }
         create.setView(bindingRate.root)
         create.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         create.show()
     }
+
+
+    private fun userData(comment: String,ratingData:String,productModel: ProductModel?,bindingRate:RateViewBinding,create:AlertDialog){
+        binding.apply {
+            mainViewModel.getUserData()
+            lifecycleScope.launchWhenCreated {
+                mainViewModel.userData.collect { result->
+                    when(result){
+                        is ResponseState.Loading->{
+                            bindingRate.progress.visible()
+                        }
+                        is ResponseState.Success->{
+                            bindingRate.progress.gone()
+                            val userDataModel = result.data?.parseClass(UserDataModel::class.java)
+                            val saveComment = SaveComment(comment,userDataModel?.user?.email,productModel?.data?.id.toString(),"1",userDataModel?.user?.name.toString(),ratingData.toDouble())
+                            saveComment(saveComment,bindingRate,create)
+                        }
+                        is ResponseState.Error->{
+                            bindingRate.progress.gone()
+                            activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
+                                if (clickType==1) userData(comment,ratingData,productModel,bindingRate,create)
+                                else if (clickType==2) {
+                                    val intent = Intent(activityMain,AuthActivity::class.java)
+                                    intent.putExtra(NO_AUTH_STATUS,2)
+                                    activityMain.startActivity(intent)
+                                }
+                                mainViewModel.clearErrorTable()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun favoriteProduct(productID:Int,viewBinding:ViewBinding){
         val favoritesReq = FavoritesReq(product_id = productID.toString())
@@ -219,7 +252,11 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                             viewBinding.lickIcon.visible()
                         }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
-                            if (clickType==2) activityMain.startActivity(Intent(activityMain, AuthActivity::class.java))
+                            if (clickType==2){
+                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                intent.putExtra(NO_AUTH_STATUS,2)
+                                activityMain.startActivity(intent)
+                            }
                             else if (clickType == 1) favoriteProduct(productID,viewBinding)
                             basketViewModel.clearErrorTable()
                         }
@@ -238,7 +275,10 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                             progressComment.visible()
                         }
                         is ResponseState.Success->{
-                            val comment = result.data?.parseClass(Comment::class.java)
+
+                            val fromJson = Gson().fromJson(result.data?.asJsonObject, CommentList::class.java)
+                            LogData( fromJson.toString())
+                            val comment = result.data?.parseClass(CommentList::class.java)
                             commentAdapter.submitList(comment?.data)
                             rvComment.adapter = commentAdapter
                             progressComment.gone()
@@ -257,24 +297,25 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
     }
 
 
-    private fun saveComment(saveComment: SaveComment){
+    private fun saveComment(saveComment: SaveComment,bindingRate: RateViewBinding,create: AlertDialog){
         productInfoViewModel.saveComment(saveComment)
         lifecycleScope.launchWhenCreated {
             productInfoViewModel.saveComment.collect { result->
                 when(result){
                     is ResponseState.Loading->{
-                        binding.progressComment.visible()
+                        bindingRate.progress.visible()
                     }
                     is ResponseState.Success->{
-                        binding.progressComment.gone()
-                        comment()
+                        bindingRate.progress.gone()
+                        create.dismiss()
+                       // comment()
                     }
                     is ResponseState.Error->{
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) comment()
                             basketViewModel.clearErrorTable()
                         }
-                        binding.progressComment.gone()
+                        bindingRate.progress.gone()
                     }
                 }
             }
@@ -302,7 +343,11 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                         binding.lockIcon.visible()
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) addBasket(addBasketReq)
-                            else if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
+                            else if (clickType == 2) {
+                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                intent.putExtra(NO_AUTH_STATUS,2)
+                                activityMain.startActivity(intent)
+                            }
                             basketViewModel.clearErrorTable()
                         }
                     }

@@ -75,6 +75,7 @@
     <string name="check_language">Tilni tanlang</string>
     <string name="save_lang">Tilni o\'zgartieish</string>
     <string name="rate_text">Sizga ko\'rsatilgan xizmatlar bo\'yicha baxo qo\'ying?</string>
+    <string name="save">Saqlash</string>
 
 
 </resources>

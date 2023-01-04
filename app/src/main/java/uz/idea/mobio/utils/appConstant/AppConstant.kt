@@ -47,6 +47,7 @@ object AppConstant {
     const val REGISTER_ERROR = -3
     const val ERRORS = "errors"
     const val APPLICATION_JSON = "application/json"
+    const val NO_AUTH_STATUS = "no_auth"
 
     const val PASSWORD = "password"
     const val MESSAGE = "message"

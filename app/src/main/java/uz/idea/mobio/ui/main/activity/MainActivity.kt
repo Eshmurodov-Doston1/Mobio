@@ -3,6 +3,7 @@ package uz.idea.mobio.ui.main.activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.WindowManager
 import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Mobio)
         setContentView(binding.root)
+
         setSupportActionBar(binding.appBarMain.toolbar)
         if (mainViewModel.getMyShared().theme == true)   AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

@@ -36,6 +36,7 @@ import uz.idea.mobio.models.favoritesData.resSaveFavorite.ResSaveFavorite
 import uz.idea.mobio.models.searchModel.DataX
 import uz.idea.mobio.ui.auth.activity.AuthActivity
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
+import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_BASKET
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_FAVORITES
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
@@ -90,7 +91,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     is ResponseState.Error->{
                         if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
-                            if (clickType==2) activityMain.startActivity(Intent(activityMain, AuthActivity::class.java))
+                            if (clickType==2) {
+                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                intent.putExtra(AppConstant.NO_AUTH_STATUS,2)
+                                activityMain.startActivity(intent)
+                            }
                             else if (clickType == 1) favoriteProduct(productID,viewBinding)
                             basketViewModel.clearErrorTable()
                         }
@@ -119,7 +124,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==1) addBasket(addBasketReq,viewBinding)
-                            else if (clickType == 2) activityMain.startActivity(Intent(activityMain,AuthActivity::class.java))
+                            else if (clickType == 2) {
+                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                intent.putExtra(AppConstant.NO_AUTH_STATUS,2)
+                                activityMain.startActivity(intent)
+                            }
                             basketViewModel.clearErrorTable()
                         }
                     }
