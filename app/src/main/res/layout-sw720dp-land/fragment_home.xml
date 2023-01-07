@@ -39,7 +39,7 @@
                         android:id="@+id/category_tv"
                         android:textStyle="bold"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/_10sdp"
+                        android:textSize="@dimen/_7sdp"
                         android:fontFamily="@font/inter_medium"
                         android:text="@string/category"
                         android:layout_weight="1"
@@ -48,7 +48,7 @@
                     <TextView
                         android:id="@+id/all_category"
                         android:layout_marginEnd="@dimen/_2sdp"
-                        android:textSize="@dimen/_9sdp"
+                        android:textSize="@dimen/_5sdp"
                         android:fontFamily="@font/inter_medium"
                         android:textColor="@color/text_color_red"
                         android:gravity="end"
@@ -61,8 +61,8 @@
                         android:layout_marginTop="2dp"
                         android:layout_gravity="end|center"
                         android:src="@drawable/ic_left"
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"/>
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category_rv"
@@ -79,12 +79,12 @@
                     android:id="@+id/viewPager2"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"/>
+                    android:layout_height="@dimen/_150sdp"/>
                 <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
                     app:layout_constraintTop_toBottomOf="@id/viewPager2"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:id="@+id/spring_dots_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,8 +92,8 @@
                     app:dotsColor="@color/app_background"
                     app:dotsStrokeColor="@color/app_background"
                     app:dotsCornerRadius="@dimen/_6sdp"
-                    app:dotsSize="10dp"
-                    app:dotsSpacing="4dp"
+                    app:dotsSize="@dimen/_6sdp"
+                    app:dotsSpacing="@dimen/_3sdp"
                     app:dotsStrokeWidth="2dp"
                     app:stiffness="300" />
 
@@ -134,8 +134,8 @@
         android:tintMode="src_in"
         app:rippleColor="@color/circle_progress_color"
         app:fabSize="normal"
-        app:fabCustomSize="@dimen/_35sdp"
-        app:layout_constraintVertical_bias="0.89"
+        app:fabCustomSize="@dimen/_25sdp"
+        app:layout_constraintVertical_bias="0.85"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

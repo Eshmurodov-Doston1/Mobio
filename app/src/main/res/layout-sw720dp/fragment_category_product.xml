@@ -28,7 +28,7 @@
                 android:overScrollMode="never"
                 tools:listitem="@layout/item_product_category"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
+                app:spanCount="3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

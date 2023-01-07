@@ -1,6 +1,7 @@
 package uz.idea.mobio.ui.main.searchScreen
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -182,22 +183,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
 
-            val layoutManager = GridLayoutManager(requireContext(),2)
-            rvSearch.layoutManager = layoutManager
-            rvSearch.addOnScrollListener(object:RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (searchAdapter.itemCount>8){
-                        if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
-                            activityMain.bottomBarView(false)
-                        }
-                    }
-                }
 
+            rvSearch.addOnScrollListener(object:RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     if (dy < 0) {
                       activityMain.bottomBarView(true)
+                    } else {
+                        activityMain.bottomBarView(false)
                     }
                 }
             })

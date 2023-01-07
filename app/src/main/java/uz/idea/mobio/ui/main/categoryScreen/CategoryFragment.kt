@@ -56,6 +56,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             }
         }
         binding.rvCategory.adapter = categoryPagingAdapter
+        binding.swipeRefresh.isRefreshing = false
     }
 
 

@@ -17,10 +17,11 @@
             android:id="@+id/rv_basket"
             android:overScrollMode="never"
             android:layout_width="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
             android:paddingTop="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/basket_item" />
@@ -57,7 +58,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
-
     <ProgressBar
         android:id="@+id/progress"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,7 +1,9 @@
 package uz.idea.mobio.ui.main.basketScreen
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
+import android.widget.AbsListView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -11,8 +13,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.map
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import uz.idea.mobio.R
@@ -22,9 +26,14 @@ import uz.idea.mobio.models.basketModel.basketList.DataX
 import uz.idea.mobio.models.basketModel.deleteBasket.reqDeleteBasket.DeleteReqModel
 import uz.idea.mobio.models.basketModel.udateBasket.UpdateBasketModel
 import uz.idea.mobio.ui.main.baseFragment.BaseFragment
+import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_ADD
 import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_MINUS
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
+import uz.idea.mobio.utils.extension.LogData
+import uz.idea.mobio.utils.extension.gone
+import uz.idea.mobio.utils.extension.isNotEmptyOrNull
+import uz.idea.mobio.utils.extension.visible
 import uz.idea.mobio.utils.resPonseState.ResponseState
 import uz.idea.mobio.vm.basketVm.BasketViewModel
 
@@ -105,6 +114,12 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
 
     override fun setup(savedInstanceState: Bundle?) {
         binding.apply {
+
+            if (!basketViewModel.mySharedPreferences.accessToken.isNotEmptyOrNull()){
+                swipeRefresh.gone()
+                noAuthView.visible()
+            }
+
             // menu host
             menuMethode()
 
@@ -125,29 +140,25 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>() {
             // swipe refresh color
             swipeRefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.circle_progress_color))
 
-
-            val layoutManager = LinearLayoutManager(requireContext())
-            rvBasket.layoutManager = layoutManager
-
             rvBasket.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (basketAdapter.itemCount>7){
-                        if (layoutManager.findLastCompletelyVisibleItemPosition() == basketAdapter.itemCount-1){
-                            activityMain.bottomBarView(false)
-                        }
-                    }
-                }
-
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (dy < 0) {
+                    if (dy > 0) {
+                        // Scrolling up
+                        activityMain.bottomBarView(false)
+                    } else {
                         activityMain.bottomBarView(true)
+                        // Scrolling down
+
                     }
                 }
             })
         }
     }
+
+
+
+
 
     private fun menuMethode() {
         val menuHost: MenuHost = requireActivity()

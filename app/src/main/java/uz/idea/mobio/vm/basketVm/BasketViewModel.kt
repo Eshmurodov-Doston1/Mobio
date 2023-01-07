@@ -28,6 +28,7 @@ import uz.idea.mobio.utils.extension.parseClass
 import uz.idea.mobio.utils.extension.queryCateGoryMap
 import uz.idea.mobio.utils.networkHelper.NetworkHelper
 import uz.idea.mobio.utils.resPonseState.ResponseState
+import uz.idea.mobio.utils.sharedPreferences.MySharedPreferences
 import javax.inject.Inject
 
 const val BASKET_PATH = "/$API/$BASKET_LIST_PATH"
@@ -39,7 +40,8 @@ class BasketViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val pagingService: PagingService,
     private val apiUsesCase: ApiUsesCase,
-    private val errorRepository: ErrorRepository
+    private val errorRepository: ErrorRepository,
+    val mySharedPreferences: MySharedPreferences
 ):ViewModel() {
     // get basket
     fun getBasketList() = createPager {  page->

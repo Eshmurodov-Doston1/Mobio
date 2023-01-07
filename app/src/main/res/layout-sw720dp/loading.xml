@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/_15sdp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:indeterminateTint="@color/circle_progress_color"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"/>
+            <TextView
+                android:textColor="@color/text_color_gray"
+                android:textStyle="normal"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:textSize="@dimen/_6sdp"
+                android:text="@string/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,8 @@
             android:id="@+id/rv_basket"
             android:overScrollMode="never"
             android:layout_width="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
             android:layout_height="match_parent"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -46,12 +47,12 @@
             app:lottie_rawRes="@raw/empty"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"/>
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"/>
         <TextView
             android:layout_marginTop="@dimen/_6sdp"
             android:textStyle="normal"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_7sdp"
             android:textColor="@color/text_color"
             android:text="@string/no_auth"
             android:layout_width="wrap_content"

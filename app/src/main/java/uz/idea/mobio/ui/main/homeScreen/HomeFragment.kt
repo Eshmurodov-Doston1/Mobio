@@ -76,14 +76,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     //category adapter
     private val categoryPagingAdapter:PagingAdapter<Data> by lazy {
-        PagingAdapter(R.layout.item_category_main){ data, _, _,viewBinding ->
+        PagingAdapter(R.layout.item_category_main){ data, _, _, _ ->
             activityMain.container?.screenNavigate?.createCategoryProduct(data?.id?:0,data?.name.toString())
         }
     }
 
     // new product adapter
     private val newProductAdapter:GenericRvAdapter<DataX> by lazy {
-        GenericRvAdapter(R.layout.item_viewpager){ data, position, clickType,viewBinding ->
+        GenericRvAdapter(R.layout.item_viewpager){ data, _, clickType, viewBinding ->
             when(clickType){
                 DEFAULT_CLICK->{
                     activityMain.container?.screenNavigate?.createProductInfoScreen(data.id)
@@ -93,6 +93,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // fab icon tint
+        binding.fabScroll.setColorFilter(ContextCompat.getColor(requireContext(),R.color.white))
+
+        binding.fabScroll.setOnClickListener { binding.nestedScrollHome.smoothScrollTo(0,0) }
     }
 
 
@@ -280,10 +288,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                 }
 
-                // fab icon tint
-                binding.fabScroll.setColorFilter(ContextCompat.getColor(requireContext(),R.color.white))
 
-                fabScroll.setOnClickListener { nestedScrollHome.smoothScrollTo(0,0) }
 
 
                 swipeRefresh.setOnRefreshListener {

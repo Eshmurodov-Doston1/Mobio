@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.categoryProductsScreen.CategoryProductFragment">
+    tools:context=".ui.main.categoryScreen.CategoryFragment">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
@@ -12,26 +12,19 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ProgressBar
-                android:id="@+id/progress"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:indeterminateTint="@color/circle_progress_color"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <include
+                android:id="@+id/include_shimmer"
+                layout="@layout/shimmer_category"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_product"
-                android:visibility="visible"
-                android:overScrollMode="never"
-                tools:listitem="@layout/item_product_category"
+                android:id="@+id/rv_category"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
+                app:spanCount="6"
+                android:overScrollMode="never"
+                android:visibility="visible"
+                tools:listitem="@layout/item_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

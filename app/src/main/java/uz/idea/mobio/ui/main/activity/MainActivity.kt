@@ -1,5 +1,6 @@
 package uz.idea.mobio.ui.main.activity
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -32,6 +33,7 @@ import uz.idea.mobio.R
 import uz.idea.mobio.database.daoAndEntity.error.ErrorEntity
 import uz.idea.mobio.databinding.ActivityMainBinding
 import uz.idea.mobio.databinding.DialogBinding
+import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.NO_INTERNET
 import uz.idea.mobio.utils.container.Container
 import uz.idea.mobio.utils.containerui.UiController
@@ -56,6 +58,12 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         else  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             //check Network
         checkConnection(this,BASE_URL,Lifecycle.State.STARTED)
+
+        // navView drawer
+        var widthOfNav: Double
+        if (AppConstant.width>=720)  widthOfNav = (AppConstant.width) * 0.5 else  widthOfNav = (AppConstant.width) * 0.7
+        binding.navView.layoutParams.width = widthOfNav.toInt()
+        binding.navView.requestLayout()
 
         // container object
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
@@ -190,6 +198,8 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
             }
         }
     }
+
+
 
    fun motionAnimation(status:String?,message:String?){
        MotionToast.createColorToast(this, message = message.toString(),

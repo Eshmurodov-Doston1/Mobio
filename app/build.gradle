@@ -108,4 +108,5 @@ dependencies {
     implementation 'com.github.Jamshid-M:ExactRatingBar:1.0.0'
     // more textView
     implementation 'kr.co.prnd:readmore-textview:1.0.0'
+
 }

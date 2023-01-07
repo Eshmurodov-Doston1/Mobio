@@ -1,6 +1,14 @@
 package uz.idea.mobio.utils.appConstant
 
+import android.content.res.Resources
+
 object AppConstant {
+    val width: Int
+        get() = Resources.getSystem().displayMetrics.widthPixels
+
+    val height: Int
+        get() = Resources.getSystem().displayMetrics.heightPixels
+
     val EMPTY_MAP = HashMap<String,String>()
     const val DATABASE_NAME = "Mobio.db"
 

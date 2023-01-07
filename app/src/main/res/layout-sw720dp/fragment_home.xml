@@ -12,113 +12,127 @@
         layout="@layout/shimmer_main_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
-        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="0dp">
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_home"
-            android:overScrollMode="never"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linear"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/category_tv"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/inter_medium"
                         android:text="@string/category"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/_7sdp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/all_category"
-                        android:layout_marginEnd="@dimen/_2sdp"
-                        android:textSize="@dimen/_9sdp"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="@color/text_color_red"
-                        android:gravity="end"
-                        android:textStyle="normal"
-                        android:text="@string/see_all"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter_medium"
+                        android:gravity="end"
+                        android:text="@string/see_all"
+                        android:textColor="@color/text_color_red"
+                        android:textSize="@dimen/_5sdp"
+                        android:textStyle="normal" />
+
                     <ImageView
-                        android:layout_marginTop="2dp"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
                         android:layout_gravity="end|center"
-                        android:src="@drawable/ic_left"
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"/>
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_left" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/category_rv"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:paddingStart="@dimen/_5sdp"
-                    android:clipToPadding="false"
-                    android:clipChildren="false"
-                    tools:listitem="@layout/item_category_main"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/_5sdp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_category_main" />
+
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager2"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"/>
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_5sdp" />
+
                 <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
-                    app:layout_constraintTop_toBottomOf="@id/viewPager2"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:id="@+id/spring_dots_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
                     app:dampingRatio="0.5"
                     app:dotsColor="@color/app_background"
+                    app:dotsCornerRadius="@dimen/_5sdp"
+                    app:dotsSize="@dimen/_5sdp"
+                    app:dotsSpacing="@dimen/_3sdp"
                     app:dotsStrokeColor="@color/app_background"
-                    app:dotsCornerRadius="@dimen/_6sdp"
-                    app:dotsSize="10dp"
-                    app:dotsSpacing="4dp"
                     app:dotsStrokeWidth="2dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewPager2"
                     app:stiffness="300" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_category_product"
-                    tools:listitem="@layout/item_category_product"
-                    android:overScrollMode="never"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@color/app_background_color"
                     android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    tools:listitem="@layout/item_category_product" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_category_product1"
-                    tools:itemCount="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/app_background_color"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
-                    android:background="@color/app_background_color"
-                    tools:listitem="@layout/item_category_product1"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_category_product1" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_scroll"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -134,8 +148,8 @@
         android:tintMode="src_in"
         app:rippleColor="@color/circle_progress_color"
         app:fabSize="normal"
-        app:fabCustomSize="@dimen/_35sdp"
-        app:layout_constraintVertical_bias="0.89"
+        app:fabCustomSize="@dimen/_22sdp"
+        app:layout_constraintVertical_bias="0.9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

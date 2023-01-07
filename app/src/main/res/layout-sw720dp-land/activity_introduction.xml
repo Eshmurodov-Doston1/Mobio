@@ -39,7 +39,7 @@
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.98"
-        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintWidth_percent="0.95"
         android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content">
@@ -50,16 +50,16 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
             android:layout_margin="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_2sdp"
             android:background="@drawable/button_back"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp">
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp">
             <ImageView
                 android:src="@drawable/ic_left_arrow"
                 android:tint="@color/icon_color_navigation"
-                android:padding="@dimen/_7sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UseAppTint" />
@@ -80,7 +80,7 @@
             app:cardBackgroundColor="@color/color_secondary"
             android:layout_width="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_height="@dimen/_25sdp">
+            android:layout_height="@dimen/_15sdp">
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -90,7 +90,7 @@
                 tools:ignore="RtlSymmetry">
                 <TextView
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_10sdp"
+                    android:textSize="@dimen/_6sdp"
                     android:textStyle="normal"
                     android:fontFamily="@font/inter_medium"
                     android:text="Davom etish"
@@ -110,7 +110,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/right_btn"
-            app:cardCornerRadius="@dimen/_15sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
             android:clickable="true"
             android:focusable="true"
             app:cardElevation="1dp"
@@ -118,12 +118,12 @@
             android:layout_margin="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_2sdp"
             android:background="@drawable/button_back"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp">
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp">
             <ImageView
                 android:src="@drawable/ic_arrow_right"
                 android:tint="@color/icon_color_navigation"
-                android:padding="@dimen/_7sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:ignore="UseAppTint" />
