@@ -42,8 +42,8 @@
             android:visibility="invisible" />
         <Constraint
             android:id="@+id/lick_btn"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             motion:layout_constraintVertical_bias="0.03"
             motion:layout_constraintLeft_toLeftOf="parent"
             motion:layout_constraintRight_toLeftOf="@id/share_btn"
@@ -52,8 +52,8 @@
             android:visibility="invisible" />
         <Constraint
             android:id="@+id/share_btn"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             motion:layout_constraintVertical_bias="0.03"
             motion:layout_constraintLeft_toLeftOf="parent"
             motion:layout_constraintRight_toLeftOf="@id/lock_btn"
@@ -62,8 +62,8 @@
             android:visibility="invisible" />
         <Constraint
             android:id="@+id/lock_btn"
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             motion:layout_constraintVertical_bias="0.03"
             motion:layout_constraintRight_toRightOf="parent"
             motion:layout_constraintLeft_toLeftOf="parent"
@@ -83,7 +83,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="0dp"
             motion:layout_constraintTop_toTopOf="@id/bac_btn"
             motion:layout_constraintBottom_toBottomOf="@id/bac_btn"
             motion:layout_constraintLeft_toRightOf="@id/bac_btn"

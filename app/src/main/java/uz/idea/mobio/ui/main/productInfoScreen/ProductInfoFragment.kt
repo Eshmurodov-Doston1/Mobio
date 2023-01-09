@@ -2,6 +2,7 @@ package uz.idea.mobio.ui.main.productInfoScreen
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -41,6 +43,7 @@ import uz.idea.mobio.vm.basketVm.BasketViewModel
 import uz.idea.mobio.vm.homeVm.HomeViewModel
 import uz.idea.mobio.vm.mainVm.MainViewModel
 import uz.idea.mobio.vm.productInfoVm.ProductInfoViewModel
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
@@ -68,10 +71,12 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
     override fun inflateViewBinding(inflater: LayoutInflater, container: ViewGroup?)
     = FragmentProductInfoBinding.inflate(inflater,container,false)
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SourceLockedOrientationActivity")
     override fun setup(savedInstanceState: Bundle?) {
         binding.apply {
             activityMain.toolbarView(true)
+            // portrait screen
+            activityMain.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             bacBtn.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -165,8 +170,14 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                     nested.scrollBy(0, 150)
             }
             // comment
-           comment()
+           commentData()
         }
+    }
+
+
+    override fun onDestroyView() {
+        activityMain.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        super.onDestroyView()
     }
 
     private fun rateMethode(comment:String,productModel: ProductModel?){
@@ -179,8 +190,9 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
             }
             var ratingData = ""
             ratingBar.onRateChanged = { rate->
-                ratingData = rate.toDouble().numberFormatter()
+                ratingData =  String.format("%.2f", rate)
             }
+
             okBtn.setOnClickListener {
                 userData(comment,ratingData,productModel,bindingRate,create)
             }
@@ -205,7 +217,8 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                             bindingRate.progress.gone()
                             val userDataModel = result.data?.parseClass(UserDataModel::class.java)
                             val saveComment = SaveComment(comment,userDataModel?.user?.email,productModel?.data?.id.toString(),"1",userDataModel?.user?.name.toString(),ratingData.toDouble())
-                            saveComment(saveComment,bindingRate,create)
+
+                            saveCommentData(saveComment,bindingRate,create)
                         }
                         is ResponseState.Error->{
                             bindingRate.progress.gone()
@@ -265,7 +278,8 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
             }
         }
     }
-    private fun comment(){
+
+    private fun commentData(){
         binding.apply {
             productInfoViewModel.getProductComment(productID)
             lifecycleScope.launchWhenCreated {
@@ -275,7 +289,7 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                             progressComment.visible()
                         }
                         is ResponseState.Success->{
-
+                            LogData(result.data.toString())
                             val fromJson = Gson().fromJson(result.data?.asJsonObject, CommentList::class.java)
                             LogData( fromJson.toString())
                             val comment = result.data?.parseClass(CommentList::class.java)
@@ -285,7 +299,7 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                         }
                         is ResponseState.Error->{
                             activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
-                                if (clickType==1) comment()
+                                if (clickType==1) commentData()
                                 basketViewModel.clearErrorTable()
                             }
                             progressComment.gone()
@@ -297,7 +311,7 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
     }
 
 
-    private fun saveComment(saveComment: SaveComment,bindingRate: RateViewBinding,create: AlertDialog){
+    private fun saveCommentData(saveComment: SaveComment,bindingRate: RateViewBinding,create: AlertDialog){
         productInfoViewModel.saveComment(saveComment)
         lifecycleScope.launchWhenCreated {
             productInfoViewModel.saveComment.collect { result->
@@ -306,13 +320,14 @@ class ProductInfoFragment : BaseFragment<FragmentProductInfoBinding>() {
                         bindingRate.progress.visible()
                     }
                     is ResponseState.Success->{
+                        LogData(result.data.toString())
                         bindingRate.progress.gone()
                         create.dismiss()
-                       // comment()
+                        commentData()
                     }
                     is ResponseState.Error->{
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
-                            if (clickType==1) comment()
+                            if (clickType==1) saveCommentData(saveComment,bindingRate,create)
                             basketViewModel.clearErrorTable()
                         }
                         bindingRate.progress.gone()

@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/purchaseFragment"
         android:name="uz.idea.mobio.ui.main.purchaseScreen.PurchaseFragment"
-        android:label="fragment_purchase"
+        android:label="@string/payment_screen"
         tools:layout="@layout/fragment_purchase" />
 
 </navigation>

@@ -76,4 +76,6 @@
     <string name="save_lang">Изменить язык</string>
     <string name="rate_text">Оцените оказанные вам услуги?</string>
     <string name="save">Сохранять</string>
+    <string name="search_info">Раздел поиска</string>
+    <string name="payment_screen">Платежное окно</string>
 </resources>

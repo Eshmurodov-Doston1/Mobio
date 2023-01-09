@@ -75,5 +75,7 @@
     <string name="save_lang">Тилни ўзгартириш</string>
     <string name="rate_text">Сизга кўрсатилган хизматлар бўйича бахо қўйинг?</string>
     <string name="save">Сақлаш</string>
+    <string name="search_info">Қидирув бўлими</string>
+    <string name="payment_screen">Тўлов ойнаси</string>
 
 </resources>

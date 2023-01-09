@@ -7,8 +7,8 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/item_card"
             app:cardElevation="@dimen/_2sdp"
-            android:layout_margin="@dimen/_8sdp"
-            app:cardCornerRadius="@dimen/_8sdp"
+            android:layout_margin="@dimen/_6sdp"
+            app:cardCornerRadius="@dimen/_6sdp"
             app:cardBackgroundColor="@color/color_item"
             android:outlineSpotShadowColor="@color/circle_progress_color"
             android:outlineAmbientShadowColor="@color/circle_progress_color"
@@ -77,9 +77,9 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:foreground="?attr/selectableItemBackgroundBorderless"
-                            app:layout_constraintHorizontal_bias="0.95"
+                            app:layout_constraintHorizontal_bias="0.98"
                             app:cardBackgroundColor="@color/card_data_color"
-                            app:cardCornerRadius="@dimen/_7sdp"
+                            app:cardCornerRadius="@dimen/_6sdp"
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp">
                             <ImageView

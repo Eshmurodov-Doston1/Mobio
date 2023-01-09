@@ -5,9 +5,11 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -23,8 +25,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import uz.idea.mobio.R
 import uz.idea.mobio.adapters.genericPagingAdapter.PagingAdapter
 import uz.idea.mobio.databinding.FragmentSearchBinding
@@ -152,7 +154,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         binding.apply {
             binding.rvSearch.gone()
-            lottie.visible()
+            linearLottie.visible()
             lottie.setAnimation(R.raw.search)
             swipeRefresh.setOnRefreshListener {
              if (search.text.toString().isNotEmptyOrNull()){
@@ -160,37 +162,62 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
              }else{
                  swipeRefresh.isRefreshing = false
                  binding.rvSearch.gone()
-                 lottie.visible()
+                 linearLottie.visible()
              }
             }
             swipeRefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.circle_progress_color))
-            search.addTextChangedListener {  text ->
-                val searchText = text?.toString()?.trim()
-                if (searchText.isNotEmptyOrNull()){
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        if (searchText.isNotEmptyOrNull()){
-                            searchData(searchText.toString())
-                            binding.rvSearch.visible()
-                            lottie.gone()
-                        }else{
-                            binding.rvSearch.gone()
-                            lottie.visible()
-                        }
-                    },1000)
+
+            search.textInputAsFlow().map {
+                if (it.toString().isNotEmptyOrNull()){
+                    binding.progress.visible()
+                    binding.rvSearch.gone()
+                    linearLottie.gone()
                 } else {
                     binding.rvSearch.gone()
-                    lottie.visible()
+                    binding.progress.gone()
+                    linearLottie.visible()
                 }
+                return@map it
             }
+                .debounce(1000)
+                .onEach { searchText->
+                    if (searchText.toString().isNotEmptyOrNull()){
+                        searchData(searchText.toString())
+                        binding.rvSearch.visible()
+                        linearLottie.gone()
+                    }
+                }
+                .launchIn(lifecycleScope)
+
+//            search.addTextChangedListener {  text ->
+//                val searchText = text?.toString()?.trim()
+//                if (searchText.isNotEmptyOrNull()){
+//                    Handler(Looper.getMainLooper()).postDelayed({
+//                        if (searchText.isNotEmptyOrNull()){
+//                            searchData(searchText.toString())
+//                            binding.rvSearch.visible()
+//                            lottie.gone()
+//                        }else{
+//                            binding.rvSearch.gone()
+//                            lottie.visible()
+//                        }
+//                    },1000)
+//                } else {
+//                    binding.rvSearch.gone()
+//                    lottie.visible()
+//                }
+//            }
 
 
             rvSearch.addOnScrollListener(object:RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (dy < 0) {
-                      activityMain.bottomBarView(true)
-                    } else {
-                        activityMain.bottomBarView(false)
+                    if (searchAdapter.itemCount > 6){
+                        if (dy < 0) {
+                            activityMain.bottomBarView(true)
+                        } else {
+                            activityMain.bottomBarView(false)
+                        }
                     }
                 }
             })

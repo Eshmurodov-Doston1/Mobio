@@ -58,7 +58,7 @@
         android:layout_gravity="bottom"
         android:id="@+id/bottom_appbar"
         app:elevation="@dimen/_4sdp"
-        android:backgroundTint="@color/app_background_color"
+        android:backgroundTint="@color/color_item"
         app:fabCradleMargin="@dimen/_10sdp"
         app:fabCradleRoundedCornerRadius="@dimen/_6sdp"
         app:fabCradleVerticalOffset="@dimen/_6sdp">

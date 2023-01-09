@@ -75,12 +75,12 @@ class BasketViewModel @Inject constructor(
 
     fun deleteBasket(deleteReqModel: DeleteReqModel) = viewModelScope.launch {
         if (networkHelper.isNetworkConnected()){
-            _updateBasket.emit(ResponseState.Loading)
+            _deleteBasket.emit(ResponseState.Loading)
             apiUsesCase.methodePost(DELETE_BASKET_PATH,deleteReqModel, EMPTY_MAP).collect { response->
-                _updateBasket.emit(response)
+                _deleteBasket.emit(response)
             }
         }else{
-            _updateBasket.emit(ResponseState.Error(NO_INTERNET))
+            _deleteBasket.emit(ResponseState.Error(NO_INTERNET))
         }
     }
 

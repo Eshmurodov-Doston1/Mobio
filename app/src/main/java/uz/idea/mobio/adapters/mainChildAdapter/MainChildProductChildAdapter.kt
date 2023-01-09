@@ -49,7 +49,7 @@ class MainChildProductChildAdapter(private val mainProductAdapter: MainChildProd
                     product.rate.onEach { rate->
                         rateStar += rate.rating.toFloat()
                     }
-                    binding.textRate.text = (rateStar/product.rate.size.toDouble()).toString()
+                    binding.textRate.text = String.format("%.2f", (rateStar/(product.rate.size)))
                 } else {
                     binding.iconStar.gone()
                     binding.textRate.gone()

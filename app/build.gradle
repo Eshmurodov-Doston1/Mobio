@@ -24,11 +24,13 @@ android {
             buildConfigField "String", "BASE_URL", "\"https://dev.mobio.uz\""
         }
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             buildConfigField "String", "BASE_URL", "\"https://dev.mobio.uz\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -108,5 +110,4 @@ dependencies {
     implementation 'com.github.Jamshid-M:ExactRatingBar:1.0.0'
     // more textView
     implementation 'kr.co.prnd:readmore-textview:1.0.0'
-
 }

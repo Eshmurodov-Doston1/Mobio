@@ -177,7 +177,7 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
                 data.rate.onEach { rateData->
                     rate += rateData.rating
                 }
-                binding.rate.text = rate.numberFormatter()
+                binding.rate.text = String.format("%.2f", (rate/(data.rate.size)))
             } else {
                 binding.starCard.gone()
             }

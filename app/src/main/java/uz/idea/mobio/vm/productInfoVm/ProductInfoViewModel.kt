@@ -67,12 +67,12 @@ class ProductInfoViewModel  @Inject constructor(
 
     fun saveComment(saveComment: SaveComment) = viewModelScope.launch {
         if (networkHelper.isNetworkConnected()){
-            _productComment.emit(ResponseState.Loading)
+            _saveComment.emit(ResponseState.Loading)
             apiUsesCase.methodePost(PRODUCT_SAVE_COMMENT_PATH_API, saveComment,EMPTY_MAP).collect { response->
-                _productComment.emit(response)
+                _saveComment.emit(response)
             }
         } else {
-            _productComment.emit(ResponseState.Error(NO_INTERNET))
+            _saveComment.emit(ResponseState.Error(NO_INTERNET))
         }
     }
 

@@ -1,10 +1,10 @@
 package uz.idea.mobio.ui.main.activity
 
-import android.content.res.Configuration
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,21 +24,25 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.muddassir.connection_checker.ConnectionState
 import com.muddassir.connection_checker.ConnectivityListener
 import com.muddassir.connection_checker.checkConnection
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import uz.idea.mobio.BuildConfig.BASE_URL
 import uz.idea.mobio.R
 import uz.idea.mobio.database.daoAndEntity.error.ErrorEntity
 import uz.idea.mobio.databinding.ActivityMainBinding
 import uz.idea.mobio.databinding.DialogBinding
+import uz.idea.mobio.databinding.NavHeaderMainBinding
+import uz.idea.mobio.models.userDataModel.UserDataModel
 import uz.idea.mobio.utils.appConstant.AppConstant
 import uz.idea.mobio.utils.appConstant.AppConstant.NO_INTERNET
 import uz.idea.mobio.utils.container.Container
 import uz.idea.mobio.utils.containerui.UiController
 import uz.idea.mobio.utils.extension.*
+import uz.idea.mobio.utils.resPonseState.ResponseState
 import uz.idea.mobio.vm.mainVm.MainViewModel
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
@@ -45,7 +50,7 @@ import www.sanju.motiontoast.MotionToastStyle
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val binding: ActivityMainBinding by viewBinding()
+    val binding: ActivityMainBinding by viewBinding()
     var container:Container?=null
     val mainViewModel:MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +66,7 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
 
         // navView drawer
         var widthOfNav: Double
-        if (AppConstant.width>=720)  widthOfNav = (AppConstant.width) * 0.5 else  widthOfNav = (AppConstant.width) * 0.7
+        if (AppConstant.width>720 && AppConstant.width>1300)  widthOfNav = (AppConstant.width) * 0.5 else  widthOfNav = (AppConstant.width) * 0.7
         binding.navView.layoutParams.width = widthOfNav.toInt()
         binding.navView.requestLayout()
 
@@ -74,6 +79,26 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
 
         //home create
         binding.appBarMain.bottomNavigation.menu.findItem(R.id.nav_home).isChecked = true
+
+
+        binding.drawerLayout.addDrawerListener(object:DrawerLayout.DrawerListener{
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                userDataMethode()
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+               // userDataMethode()
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+
+            }
+
+        })
 
 
         //fab setOnClick
@@ -94,6 +119,36 @@ class MainActivity : AppCompatActivity(),UiController, ConnectivityListener {
         binding.appBarMain.bottomNavigation.setupWithNavController(navHostFragment.navController)
         navView.setupWithNavController(navHostFragment.navController)
         navUiController()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun userDataMethode() {
+        // header date
+        val headerBinding = binding.navView.getHeaderView(0)
+        // nav_header.xml is headerLayout
+        val navViewHeaderBinding : NavHeaderMainBinding = NavHeaderMainBinding.bind(headerBinding)
+        if (mainViewModel.getMyShared().accessToken.isNotEmptyOrNull()){
+            mainViewModel.getUserData()
+            lifecycleScope.launchWhenCreated {
+                mainViewModel.userData.collect { result->
+                    when(result){
+                        is ResponseState.Success->{
+                            LogData(result.data.toString())
+                            val userData = result.data?.parseClass(UserDataModel::class.java)
+                            navViewHeaderBinding.imageUser.imageData(userData?.user?.profile_photo_url.toString(),this@MainActivity)
+                            navViewHeaderBinding.userName.text = userData?.user?.name
+                            navViewHeaderBinding.phoneNumber.text = "+${userData?.user?.phone}"
+                        }
+                        is ResponseState.Loading->{
+
+                        }
+                        is ResponseState.Error->{
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

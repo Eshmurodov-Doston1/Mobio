@@ -5,15 +5,21 @@ import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import uz.idea.mobio.R
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -23,6 +29,15 @@ import java.util.*
 
 fun String?.isNotEmptyOrNull():Boolean{
     return this != null && this.isNotEmpty() && this != ""
+}
+
+
+
+fun EditText.textInputAsFlow() = callbackFlow {
+    val watcher: TextWatcher = doOnTextChanged { textInput: CharSequence?, _, _, _ ->
+        this.trySend(textInput).isSuccess
+    }
+    awaitClose { this@textInputAsFlow.removeTextChangedListener(watcher) }
 }
 
 fun View.enabled(){

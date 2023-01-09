@@ -113,8 +113,7 @@
                     android:overScrollMode="never"
                     android:background="@color/app_background_color"
                     tools:listitem="@layout/item_category_product1"
-                    app:spanCount="2"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -136,7 +135,7 @@
         app:rippleColor="@color/circle_progress_color"
         app:fabSize="normal"
         app:fabCustomSize="@dimen/_35sdp"
-        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintVertical_bias="0.7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

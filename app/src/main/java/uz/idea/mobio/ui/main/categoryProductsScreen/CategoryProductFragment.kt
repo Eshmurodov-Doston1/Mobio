@@ -88,7 +88,7 @@ class CategoryProductFragment : BaseFragment<FragmentCategoryProductBinding>() {
                         if (viewBinding is ItemProductCategoryBinding){ viewBinding.loadingCons.gone() }
                         activityMain.errorDialog(result.errorCode,result.liveError){ clickType ->
                             if (clickType==2) {
-                                val intent = Intent(activityMain,AuthActivity::class.java)
+                                val intent = Intent(requireActivity(),AuthActivity::class.java)
                                 intent.putExtra(AppConstant.NO_AUTH_STATUS,2)
                                 activityMain.startActivity(intent)
                             }

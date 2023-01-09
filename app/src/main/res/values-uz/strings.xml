@@ -76,6 +76,10 @@
     <string name="save_lang">Tilni o\'zgartieish</string>
     <string name="rate_text">Sizga ko\'rsatilgan xizmatlar bo\'yicha baxo qo\'ying?</string>
     <string name="save">Saqlash</string>
+    <string name="search_info">Qidiruv bo\'limi</string>
+    <string name="payment_screen">To\'lov oynasi</string>
+
+
 
 
 </resources>

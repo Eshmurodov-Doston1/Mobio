@@ -34,7 +34,7 @@
             android:textSize="@dimen/_10sdp"
             android:textColor="@color/text_color"
             android:textStyle="bold"
-            android:text="Dostonbek Eshmurodov"
+            android:text="@string/no_data"
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -45,7 +45,7 @@
             android:textSize="@dimen/_9sdp"
             android:textColor="@color/text_color_gray"
             android:textStyle="normal"
-            android:text="+998994206278"
+            android:text="@string/no_data"
             android:layout_marginHorizontal="@dimen/_8sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
