@@ -14,7 +14,7 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -24,8 +24,7 @@ android {
             buildConfigField "String", "BASE_URL", "\"https://dev.mobio.uz\""
         }
         release {
-            shrinkResources true
-            minifyEnabled true
+            minifyEnabled false
             buildConfigField "String", "BASE_URL", "\"https://dev.mobio.uz\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

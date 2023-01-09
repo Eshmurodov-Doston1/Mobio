@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".ui.auth.activity.AuthActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="locked"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
@@ -42,7 +42,7 @@
         <activity
             android:name=".ui.main.activity.MainActivity"
             android:exported="true"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="locked"
             android:theme="@style/Theme.Mobio"
             android:windowSoftInputMode="adjustPan">

@@ -8,7 +8,7 @@ import androidx.viewbinding.ViewBinding
 import uz.idea.mobio.adapters.GenericDiffUtil
 import uz.idea.mobio.adapters.genericPagingAdapter.PagingViewHolder
 
-class GenericRvAdapter<T>(
+class GenericRvAdapter<T : Any>(
     @LayoutRes private val layoutRes:Int,
     private val onCLick:(data:T,position:Int,clickType:Int,viewBiding:ViewBinding)->Unit
 ):ListAdapter<T,PagingViewHolder>(GenericDiffUtil<T>()) {
