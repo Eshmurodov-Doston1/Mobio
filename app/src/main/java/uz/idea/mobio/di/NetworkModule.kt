@@ -36,12 +36,14 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesOkHttpClient(@ApplicationContext context: Context, tokenInterceptor: TokenInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(CONNECTION_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
+        val okHttpClient = OkHttpClient.Builder()
+        okHttpClient.connectTimeout(CONNECTION_TIMEOUT.toLong(), TimeUnit.SECONDS).readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .addInterceptor(tokenInterceptor)
-            .addInterceptor(ChuckerInterceptor(context)).build()
+            if (BuildConfig.DEBUG){
+                okHttpClient.addInterceptor(ChuckerInterceptor(context))
+            }
+        return okHttpClient.build()
     }
 
     @Provides

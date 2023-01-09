@@ -8,7 +8,6 @@ import androidx.viewbinding.ViewBinding
 import uz.idea.mobio.R
 import uz.idea.mobio.databinding.*
 import uz.idea.mobio.models.categoryModel.Data
-import uz.idea.mobio.models.locale.LocaleCommentModel
 import uz.idea.mobio.models.locale.LocalePager
 import uz.idea.mobio.models.locale.user_image_url1
 import uz.idea.mobio.models.newProductModel.DataX
@@ -20,7 +19,6 @@ import uz.idea.mobio.utils.appConstant.AppConstant.CLICK_MINUS
 import uz.idea.mobio.utils.appConstant.AppConstant.DEFAULT_CLICK
 import uz.idea.mobio.utils.appConstant.AppConstant.IMAGE_URL
 import uz.idea.mobio.utils.extension.*
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,13 +52,14 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
                itemComment(data,position,onClick)
            }
            R.layout.item_introduction->{
-               itemIntroduction(data,position,onClick)
+               itemIntroduction(data)
            }
        }
     }
 
     // item introduction
-    private fun <T> itemIntroduction(data:T, position: Int, onClick: (data: T, position: Int, clickType:Int, viewBinding:ViewBinding) -> Unit){
+    private fun <T> itemIntroduction(
+        data: T){
         val binding = ItemIntroductionBinding.bind(itemView)
         if (data is LocalePager){
             binding.textIntroduction.text = data.message
@@ -211,8 +210,8 @@ class PagingViewHolder(var itemView:View):RecyclerView.ViewHolder(itemView),Hold
             itemView.setOnClickListener {
                 onClick.invoke(data,position, DEFAULT_CLICK,binding)
             }
-            val price = data?.price
-            val oldPrice = data?.old_price
+            val price = data.price
+            val oldPrice = data.old_price
             if (price!=null){
                 binding.summa.text = price.numberFormatter() + " ${itemView.context.getString(R.string.pay_type)}"
             } else {

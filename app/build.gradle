@@ -15,7 +15,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -110,4 +110,7 @@ dependencies {
     implementation 'com.github.Jamshid-M:ExactRatingBar:1.0.0'
     // more textView
     implementation 'kr.co.prnd:readmore-textview:1.0.0'
+    // New version
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
 }
